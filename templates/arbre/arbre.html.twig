@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Genealogy{% endblock %}
+{% block monTitre %}Arbre de {{user.prenom|capitalize}}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+      
+    <div>
+        <div class='row-parent-genealogie'>
+            <div class='cards-genealogie'>
+                 <a href="{{ path('arbre', {id: user.id}) }}?position=enfant">{{user.prenom|capitalize}} {{user.nom|capitalize}}</a>
+            </div>
+        </div>
+        <div class='cards-parent-trait'></div>
+    </div>
+
+   
+    <div class='trait-relation'></div>
+
+
+    <div class='row-enfant-genealogie mb-5'>
+        {% for enfant in enfants %}
+            <div>
+                <div class='cards-enfant-trait'></div>
+                <div class='cards-genealogie'>
+                    <a href="{{ path('arbre', {id: enfant.user.id}) }}">{{enfant.user.prenom|capitalize}} {{enfant.user.nom|capitalize}}</a>
+                </div>
+            </div>
+        {% endfor  %}
+    </div>
+
+
+    <div class="btn btn-info mt-5 float-right">
+        <a class="text-light" href="{{ path("listeMembres") }}">Retour à la liste des membres</a>
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Genealogy{% endblock %}
+{% block monTitre %}Liste des membres de la famille{% endblock %}
+
+{% block body %}
+
+<div class="container"> 
+
+        <div class="m-4">
+            <form method="GET" class="col-12 justify-content-center mx-auto input-group " action="{{ path("moteurDeRecherche") }}">
+                <input class="form-control col-4" type="search" name="champs" placeholder="Recherche" aria-label="Search" >
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Rechercher</button>
+                </div>
+            </form>
+            <div class="row justify-content-center">
+                {% for message in app.flashes('danger') %}
+                    <div class="alert alert-danger col-2 text-center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+    <table class="table table-hover text-center">
+
+        <thead>
+            <tr>
+                <th>Nom
+                    <a href="{{ path("nomAz") }}">↑</a>
+                    <a href="{{ path("nomZa") }}">↓</a>
+                </th>
+                <th>Prénom
+                    <a href="{{ path("prenomAz") }}">↑</a>
+                    <a href="{{ path("prenomZa") }}">↓</a>
+                </th>
+                <th>Date de naissance
+                    <a href="{{ path("dateCroissante") }}">↑</a>
+                    <a href="{{ path("dateDecroissante") }}">↓</a>
+                </th>
+                <th>Lieu de naissance
+                    <a href="{{ path("lieuAz") }}">↑</a>
+                    <a href="{{ path("lieuZa") }}">↓</a>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td><a href="{{ path('arbre', {id: user.id}) }}">{{user.nom|capitalize}}</a></td>
+                    <td>{{user.prenom|capitalize}} </td>
+                    <td>{{user.date|date("d/m/Y")}}</td>
+                    <td>{{user.lieu|capitalize}} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+
+
