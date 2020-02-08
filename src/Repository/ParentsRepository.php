@@ -32,7 +32,7 @@ class ParentsRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findParent($user)
+    public function findPere($user)
     {
         return $this->createQueryBuilder('p')
             ->select('parent.id AS pere')
@@ -44,17 +44,31 @@ class ParentsRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findConjoint($user)
+
+    public function findMere($user)
     {
         return $this->createQueryBuilder('p')
-            ->select('mother.id AS mere')
-            ->leftJoin('p.mere', 'mother')
-            ->andWhere('p.pere = :parent ')
-            ->setParameter('parent', $user)
+            ->select('p')
+            ->leftJoin('p.mere', 'parent')
+            ->andWhere('p.pere = :val')
+            ->setParameter('val', $user)
             ->getQuery()
             ->getResult()
         ;
     }
+
+
+    // public function findConjoint($user)
+    // {
+    //     return $this->createQueryBuilder('p')
+    //         ->select('mother.id AS mere')
+    //         ->leftJoin('p.mere', 'mother')
+    //         ->andWhere('p.pere = :parent ')
+    //         ->setParameter('parent', $user)
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    // }
     
     // if ($personneQuery['sexe'] == 'm') {
     //     $conjointQuery = $pdo->query("SELECT user.id, user.prenom, user.nom FROM user INNER JOIN parent ON parent.mere_id = user.id WHERE parent.mere_id = $personne OR parent.pere_id = $personne")->fetch(PDO::FETCH_ASSOC);

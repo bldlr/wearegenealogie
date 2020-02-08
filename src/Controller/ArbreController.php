@@ -17,26 +17,41 @@ class ArbreController extends AbstractController
      */
     public function arbre(User $user, ParentsRepository $repoParents, UserRepository $repoUser, Request $request)
     {
+
         $enfants = 0;
+
         if ($request->query->get('position') == 'parent') {
+
+            $position = 'parent';
             $enfants = $repoParents->findEnfants($user);
+            dump($enfants);
 
-            //$conjoint = $repoParents->findConjoint($user);
+            // le conjoint est une entité de la table User
+            // on le retrouve dans la table Parent par sa relation avec son enfant et son conjoint
+            // du coup on appelle le repoUser pour récupérer ce conjoint selon l'enfant qui est retourné par repoParents avec findOneBy()
+            if ($user->getSexe() == 'm') {
+                $conjoint = $repoUser->find($repoParents->findOneBy(['pere' => $user])->getMere());
+            }
+            else {
+                $conjoint = $repoUser->find($repoParents->findOneBy(['mere' => $user])->getPere());
+            }
 
-            //dump($p);
 
-            // $conjoint = $repoParents->findConjoint($user);
-            // dump($conjoint);
-        }
-        elseif ($request->query->get('position') == 'enfant') {
+        } elseif ($request->query->get('position') == 'enfant') {
+
+            $position = 'enfant';
             dump('blablabla');
-        }
-        elseif (!$request->query->get('position')) {
+
+        } elseif (!$request->query->get('position')) {
+
             dump('lol');
+
         }
 
         return $this->render('arbre/arbre.html.twig', [
+            'position' => $position,
             'user' => $user,
+            'conjoint' => $conjoint,
             'enfants' => $enfants,
         ]);
     }

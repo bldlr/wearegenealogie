@@ -50,7 +50,7 @@
         <tbody>
             {% for user in users %}
                 <tr>
-                    <td><a href="{{ path('arbre', {id: user.id}) }}">{{user.nom|capitalize}}</a></td>
+                    <td><a href="{{ path('arbre', {id: user.id}) }}?position=parent">{{user.nom|capitalize}}</a></td>
                     <td>{{user.prenom|capitalize}} </td>
                     <td>{{user.date|date("d/m/Y")}}</td>
                     <td>{{user.lieu|capitalize}} </td>
