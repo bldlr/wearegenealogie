@@ -10,50 +10,65 @@
 
 	<div class="container">
 
-
 		<div class='row-parent-genealogie'>
 
 			{% for parent in parents %}
+
 				<div>
 					<div class='cards-genealogie'>
+
 						{% if parent is null %}
 							<a href="">Parent inconnu</a>
 						{% else %}
-							<a href="{{ path('arbre', {id: parent.id, position: 'enfant'}) }}">{{parent.prenom|capitalize}}
-								{{parent.nom|capitalize}}</a>
+							<a href="{{ path('arbre', {id: parent.id, position: 'enfant'}) }}">
+								{{parent.prenom|capitalize}}
+								{{parent.nom|capitalize}}
+							</a>
 						{% endif %}
+
 					</div>
+
+					{# cette condition sert à ne pas afficher le trait des parents si $user est en position parent et qu'il n'a pas d'enfant #}
 					{% if not (position == 'parent' and enfants is null) %}
 						<div class='cards-parent-trait'></div>
 					{% endif %}
+
 				</div>
 			{% endfor %}
 
 		</div>
-
+					
+		{# même idée que ligne 32, cette condition sert ici à ne pas afficher la ligne des enfants si $user est en position parent et qu'il n'a pas d'enfant #}
 		{% if not (position == 'parent' and enfants is null) %}
 
 			<div class='trait-relation'></div>
 
 			<div class='row-enfant-genealogie mb-5'>
+
 				{% for enfant in enfants %}
 					<div>
 						<div class='cards-enfant-trait'></div>
 						<div class='cards-genealogie'>
+
 							{% if enfant is null and position == 'enfant' %}
+							{# on rentre dans cette condition si on doit générer un arbre avec deux parents inconnus 
+							on a décidé que pour l'instant il n'y a pas de fratrie possible s'il n'y a pas de parents en BDD #}
 								<a href="{{ path('arbre', {id: user.id, position: 'parent'}) }}">
 									{{user.prenom|capitalize}}
 									{{user.nom|capitalize}}
 								</a>
 							{% else %}
+							{# affichage de base #}
 								<a href="{{ path('arbre', {id: enfant.id, position: 'parent'}) }}">
 									{{enfant.prenom|capitalize}}
 									{{enfant.nom|capitalize}}
 								</a>
 							{% endif %}
+
 						</div>
 					</div>
 				{% endfor %}
+
 			</div>
 
 		{% endif %}
