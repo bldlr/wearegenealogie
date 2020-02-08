@@ -34,23 +34,27 @@ class ArbreController extends AbstractController
                         $user,
                         $repoUser->find($userParent->getMere()),
                     ];
-                    $enfants = $repoParents->findBy(['pere' => $user]);
+                    foreach ($repoParents->findBy(['pere' => $user]) as $enfant) {
+                        $enfants[] = $enfant->getUser();
+                    }
                 } else {
                     $parents = [
                         $repoUser->find($userParent->getPere()),
                         $user,
                     ];
-                    $enfants = $repoParents->findBy(['mere' => $user]);
+                    foreach ($repoParents->findBy(['mere' => $user]) as $enfant) {
+                        $enfants[] = $enfant->getUser();
+                    }
                 }
-            }
-            else {
+            } else {
                 $parents = [$user];
-                $enfants = [null];
+                $enfants = null;
             }
 
         } elseif ($request->query->get('position') == 'enfant') {
 
             $position = 'enfant';
+            $enfants = [];
 
             $userEnfant = $repoParents->findOneBy(['user' => $user]);
 
@@ -58,11 +62,12 @@ class ArbreController extends AbstractController
                 $userPere = $repoUser->find($userEnfant->getPere());
                 $userMere = $repoUser->find($userEnfant->getMere());
 
-                $enfants = $repoParents->findBy(['pere' => $userPere, 'mere' => $userMere]);
+                foreach ($repoParents->findBy(['pere' => $userPere, 'mere' => $userMere]) as $enfant) {
+                    $enfants[] = $enfant->getUser();
+                }
             } else {
                 $userPere = null;
                 $userMere = null;
-
                 $enfants = [null];
             }
 

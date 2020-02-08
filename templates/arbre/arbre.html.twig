@@ -19,36 +19,44 @@
 						{% if parent is null %}
 							<a href="">Parent inconnu</a>
 						{% else %}
-							<a href="{{ path('arbre', {id: parent.id}) }}?position=enfant">{{parent.prenom|capitalize}}
+							<a href="{{ path('arbre', {id: parent.id, position: 'enfant'}) }}">{{parent.prenom|capitalize}}
 								{{parent.nom|capitalize}}</a>
 						{% endif %}
 					</div>
-					<div class='cards-parent-trait'></div>
+					{% if not (position == 'parent' and enfants is null) %}
+						<div class='cards-parent-trait'></div>
+					{% endif %}
 				</div>
 			{% endfor %}
 
-
 		</div>
 
-		<div class='trait-relation'></div>
+		{% if not (position == 'parent' and enfants is null) %}
 
-		<div class='row-enfant-genealogie mb-5'>
-			{% for enfant in enfants %}
-				<div>
-					<div class='cards-enfant-trait'></div>
-					<div class='cards-genealogie'>
-						{% if enfant is null and position == 'enfant' %}
-							<a href="{{ path('arbre', {id: user.id}) }}?position=parent">{{user.prenom|capitalize}}
-								{{user.nom|capitalize}}</a>
-						{% elseif enfant is null and position == 'parent' %}
-						{% else %}
-							<a href="{{ path('arbre', {id: enfant.user.id}) }}?position=parent">{{enfant.user.prenom|capitalize}}
-								{{enfant.user.nom|capitalize}}</a>
-						{% endif %}
+			<div class='trait-relation'></div>
+
+			<div class='row-enfant-genealogie mb-5'>
+				{% for enfant in enfants %}
+					<div>
+						<div class='cards-enfant-trait'></div>
+						<div class='cards-genealogie'>
+							{% if enfant is null and position == 'enfant' %}
+								<a href="{{ path('arbre', {id: user.id, position: 'parent'}) }}">
+									{{user.prenom|capitalize}}
+									{{user.nom|capitalize}}
+								</a>
+							{% else %}
+								<a href="{{ path('arbre', {id: enfant.id, position: 'parent'}) }}">
+									{{enfant.prenom|capitalize}}
+									{{enfant.nom|capitalize}}
+								</a>
+							{% endif %}
+						</div>
 					</div>
-				</div>
-			{% endfor  %}
-		</div>
+				{% endfor %}
+			</div>
+
+		{% endif %}
 
 		<div class="btn btn-info mt-5 float-right">
 			<a class="text-light" href="{{ path("listeMembres") }}">Retour à la liste des membres</a>
