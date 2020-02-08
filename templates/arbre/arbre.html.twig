@@ -31,6 +31,18 @@
 					<div class='cards-parent-trait'></div>
 				</div>
 
+			{% elseif position == 'enfant' %}
+
+				{% for parent in parents %}
+					<div>
+						<div class='cards-genealogie'>
+							<a href="{{ path('arbre', {id: parent.id}) }}?position=enfant">{{parent.prenom|capitalize}}
+								{{parent.nom|capitalize}}</a>
+						</div>
+						<div class='cards-parent-trait'></div>
+					</div>
+				{% endfor %}
+
 			{% endif %}
 
 
@@ -40,16 +52,28 @@
 
 
 		<div class='row-enfant-genealogie mb-5'>
-			{% for enfant in enfants %}
-				<div>
-					<div class='cards-enfant-trait'></div>
-					<div class='cards-genealogie'>
-						<a href="{{ path('arbre', {id: enfant.user.id}) }}">{{enfant.user.prenom|capitalize}}
-							{{enfant.user.nom|capitalize}}</a>
+			{% if position == 'parent' %}
+				{% for enfant in enfants %}
+					<div>
+						<div class='cards-enfant-trait'></div>
+						<div class='cards-genealogie'>
+							<a href="{{ path('arbre', {id: enfant.user.id}) }}?position=parent">{{enfant.user.prenom|capitalize}}
+								{{enfant.user.nom|capitalize}}</a>
+						</div>
 					</div>
+				{% endfor  %}
+			</div>
+		{% elseif position == 'enfant' %}
+
+			<div>
+				<div class='cards-enfant-trait'></div>
+				<div class='cards-genealogie'>
+					<a href="{{ path('arbre', {id: user.id}) }}?position=parent">{{user.prenom|capitalize}}
+						{{user.nom|capitalize}}</a>
 				</div>
-			{% endfor  %}
-		</div>
+			</div>
+
+		{% endif %}
 
 
 		<div class="btn btn-info mt-5 float-right">

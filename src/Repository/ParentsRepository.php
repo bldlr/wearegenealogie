@@ -25,8 +25,10 @@ class ParentsRepository extends ServiceEntityRepository
     public function findEnfants($user)
     {
         return $this->createQueryBuilder('p')
-            ->where('p.mere  = :parent or p.pere = :parent')
-            ->setParameter('parent', $user)
+            ->andWhere('p.mere  = :parent')
+            ->setParameter('parent', $user[0])
+            ->orWhere(' p.pere = :parent')
+            ->setParameter('parent', $user[1])
             ->getQuery()
             ->getResult()
         ;
