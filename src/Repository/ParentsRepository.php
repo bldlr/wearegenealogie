@@ -19,18 +19,43 @@ class ParentsRepository extends ServiceEntityRepository
         parent::__construct($registry, Parents::class);
     }
 
-    public function findFratrie($user)
+    public function findEnfantsPereOrder($pere)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.mere  = :parent')
-            ->setParameter('parent', $user[0])
-            ->orWhere(' p.pere = :parent')
-            ->setParameter('parent', $user[1])
+            ->where('p.pere = :val')
+            ->setParameter(':val', $pere)
+            ->leftJoin('p.user', 'u')
+            ->orderBy('u.date', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
 
+    public function findEnfantsMereOrder($mere)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.mere = :val')
+            ->setParameter(':val', $mere)
+            ->leftJoin('p.user', 'u')
+            ->orderBy('u.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findFratrieOrder($userPere, $userMere)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.pere = :pere')
+            ->setParameter(':pere', $userPere)
+            ->andWhere('p.mere = :mere')
+            ->setParameter(':mere', $userMere)
+            ->leftJoin('p.user', 'u')
+            ->orderBy('u.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     public function findEnfants($user)
     {
@@ -56,7 +81,6 @@ class ParentsRepository extends ServiceEntityRepository
         ;
     }
 
-
     public function findMere($user)
     {
         return $this->createQueryBuilder('p')
@@ -69,7 +93,6 @@ class ParentsRepository extends ServiceEntityRepository
         ;
     }
 
-
     // public function findConjoint($user)
     // {
     //     return $this->createQueryBuilder('p')
@@ -81,14 +104,12 @@ class ParentsRepository extends ServiceEntityRepository
     //         ->getResult()
     //     ;
     // }
-    
+
     // if ($personneQuery['sexe'] == 'm') {
     //     $conjointQuery = $pdo->query("SELECT user.id, user.prenom, user.nom FROM user INNER JOIN parent ON parent.mere_id = user.id WHERE parent.mere_id = $personne OR parent.pere_id = $personne")->fetch(PDO::FETCH_ASSOC);
     // } elseif ($personneQuery['sexe'] == 'f') {
     //     $conjointQuery = $pdo->query("SELECT user.id, user.prenom, user.nom FROM user INNER JOIN parent ON parent.pere_id = user.id WHERE parent.mere_id = $personne OR parent.pere_id = $personne")->fetch(PDO::FETCH_ASSOC);
     // }
-
-
 
     // /**
     //  * @return Parents[] Returns an array of Parents objects
@@ -96,26 +117,26 @@ class ParentsRepository extends ServiceEntityRepository
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    return $this->createQueryBuilder('p')
+    ->andWhere('p.exampleField = :val')
+    ->setParameter('val', $value)
+    ->orderBy('p.id', 'ASC')
+    ->setMaxResults(10)
+    ->getQuery()
+    ->getResult()
+    ;
     }
-    */
+     */
 
     /*
-    public function findOneBySomeField($value): ?Parents
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+public function findOneBySomeField($value): ?Parents
+{
+return $this->createQueryBuilder('p')
+->andWhere('p.exampleField = :val')
+->setParameter('val', $value)
+->getQuery()
+->getOneOrNullResult()
+;
+}
+ */
 }

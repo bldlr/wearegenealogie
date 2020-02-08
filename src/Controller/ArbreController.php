@@ -41,7 +41,8 @@ class ArbreController extends AbstractController
                         $user,
                         $repoUser->find($userParent->getMere()),
                     ];
-                    foreach ($repoParents->findBy(['pere' => $user]) as $enfant) {
+                    $enfantsRepoParents = $repoParents->findEnfantsPereOrder($user);
+                    foreach ($enfantsRepoParents as $enfant) {
                         $enfants[] = $enfant->getUser();
                     }
                 } else {
@@ -49,7 +50,8 @@ class ArbreController extends AbstractController
                         $repoUser->find($userParent->getPere()),
                         $user,
                     ];
-                    foreach ($repoParents->findBy(['mere' => $user]) as $enfant) {
+                    $enfantsRepoParents = $repoParents->findEnfantsMereOrder($user);
+                    foreach ($enfantsRepoParents as $enfant) {
                         $enfants[] = $enfant->getUser();
                     }
                 }
@@ -75,7 +77,7 @@ class ArbreController extends AbstractController
                 $userMere = $repoUser->find($userEnfant->getMere());
 
                 // avec cette boucle on récupère la fratrie de $user
-                foreach ($repoParents->findBy(['pere' => $userPere, 'mere' => $userMere]) as $enfant) {
+                foreach ($repoParents->findFratrieOrder($userPere, $userMere) as $enfant) {
                     $enfants[] = $enfant->getUser();
                 }
 
