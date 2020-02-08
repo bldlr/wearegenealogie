@@ -19,7 +19,17 @@ class ParentsRepository extends ServiceEntityRepository
         parent::__construct($registry, Parents::class);
     }
 
-
+    public function findFratrie($user)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.mere  = :parent')
+            ->setParameter('parent', $user[0])
+            ->orWhere(' p.pere = :parent')
+            ->setParameter('parent', $user[1])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 
     public function findEnfants($user)

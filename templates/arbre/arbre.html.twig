@@ -13,37 +13,19 @@
 
 		<div class='row-parent-genealogie'>
 
-			{% if position == 'parent' %}
-
+			{% for parent in parents %}
 				<div>
 					<div class='cards-genealogie'>
-						<a href="{{ path('arbre', {id: user.id}) }}?position=enfant">{{user.prenom|capitalize}}
-							{{user.nom|capitalize}}</a>
-					</div>
-					<div class='cards-parent-trait'></div>
-				</div>
-
-				<div>
-					<div class='cards-genealogie'>
-						<a href="{{ path('arbre', {id: conjoint.id}) }}?position=enfant">{{conjoint.prenom|capitalize}}
-							{{conjoint.nom|capitalize}}</a>
-					</div>
-					<div class='cards-parent-trait'></div>
-				</div>
-
-			{% elseif position == 'enfant' %}
-
-				{% for parent in parents %}
-					<div>
-						<div class='cards-genealogie'>
+						{% if parent is null %}
+							<a href="">Parent inconnu</a>
+						{% else %}
 							<a href="{{ path('arbre', {id: parent.id}) }}?position=enfant">{{parent.prenom|capitalize}}
 								{{parent.nom|capitalize}}</a>
-						</div>
-						<div class='cards-parent-trait'></div>
+						{% endif %}
 					</div>
-				{% endfor %}
-
-			{% endif %}
+					<div class='cards-parent-trait'></div>
+				</div>
+			{% endfor %}
 
 
 		</div>
@@ -52,29 +34,22 @@
 
 
 		<div class='row-enfant-genealogie mb-5'>
-			{% if position == 'parent' %}
-				{% for enfant in enfants %}
-					<div>
-						<div class='cards-enfant-trait'></div>
-						<div class='cards-genealogie'>
+			{% for enfant in enfants %}
+				<div>
+					<div class='cards-enfant-trait'></div>
+					<div class='cards-genealogie'>
+						{% if enfant is null and position == 'enfant' %}
+							<a href="{{ path('arbre', {id: user.id}) }}?position=parent">{{user.prenom|capitalize}}
+								{{user.nom|capitalize}}</a>
+						{% elseif enfant is null and position == 'parent' %}
+						{% else %}
 							<a href="{{ path('arbre', {id: enfant.user.id}) }}?position=parent">{{enfant.user.prenom|capitalize}}
 								{{enfant.user.nom|capitalize}}</a>
-						</div>
+						{% endif %}
 					</div>
-				{% endfor  %}
-			</div>
-		{% elseif position == 'enfant' %}
-
-			<div>
-				<div class='cards-enfant-trait'></div>
-				<div class='cards-genealogie'>
-					<a href="{{ path('arbre', {id: user.id}) }}?position=parent">{{user.prenom|capitalize}}
-						{{user.nom|capitalize}}</a>
 				</div>
-			</div>
-
-		{% endif %}
-
+			{% endfor  %}
+		</div>
 
 		<div class="btn btn-info mt-5 float-right">
 			<a class="text-light" href="{{ path("listeMembres") }}">Retour à la liste des membres</a>

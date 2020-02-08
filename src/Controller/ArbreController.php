@@ -18,53 +18,56 @@ class ArbreController extends AbstractController
     public function arbre(User $user, ParentsRepository $repoParents, UserRepository $repoUser, Request $request)
     {
 
-        $enfants = 0;
-        $parents = 0;
-        $conjoint = 0;
-
         if ($request->query->get('position') == 'parent') {
 
             $position = 'parent';
 
-            // le conjoint est une entité de la table User
-            // on le retrouve dans la table Parent par sa relation avec son enfant et son conjoint
-            // du coup on appelle le repoUser pour récupérer ce conjoint selon l'enfant qui est retourné par repoParents avec findOneBy()
-            if ($user->getSexe() == 'm')
-            {
-                $enfants = $repoParents->findBy(['pere' => $user]);
-                $conjoint = $repoUser->find($repoParents->findOneBy(['pere' => $user])->getMere());
-            }
-            else
-            {
-                $enfants = $repoParents->findBy(['mere' => $user]);
-                $conjoint = $repoUser->find($repoParents->findOneBy(['mere' => $user])->getPere());
-            }
+            $userParent = $repoParents->findOneBy(['pere' => $user]);
 
+            if ($userParent) {
+                if ($user->getSexe() == 'm') {
+                    $parents = [
+                        $user,
+                        $repoUser->find($repoParents->findOneBy(['pere' => $user])->getMere()),
+                    ];
+                    $enfants = $repoParents->findBy(['pere' => $user]);
+                } else {
+                    $parents = [
+                        $user,
+                        $repoUser->find($repoParents->findOneBy(['mere' => $user])->getPere()),
+                    ];
+                    $enfants = $repoParents->findBy(['mere' => $user]);
+                }
+            }
+            else {
+                $parents = [$user];
+                $enfants = [null];
+            }
 
         } elseif ($request->query->get('position') == 'enfant') {
 
             $position = 'enfant';
 
-            // if ($parents->getSexe() == 'm')
-            // {
-            //     $enfants = $repoParents->findBy(['pere' => $user]);
-            //     $conjoint = $repoUser->find($repoParents->findOneBy(['pere' => $user])->getMere());
-            // }
-            // else
-            // {
-            //     $enfants = $repoParents->findBy(['mere' => $user]);
-            //     $conjoint = $repoUser->find($repoParents->findOneBy(['mere' => $user])->getPere());
-            // }
+            $userEnfant = $repoParents->findOneBy(['user' => $user]);
 
-            $parents = [$repoUser->find($repoParents->findOneBy(['user' => $user])->getPere()), $repoUser->find($repoParents->findOneBy(['user' => $user])->getMere())];
-            $fratrie = $repoParents->findEnfants($parents);
-            dump($fratrie);
+            if ($userEnfant) {
+                $userPere = $repoUser->find($userEnfant->getPere());
+                $userMere = $repoUser->find($userEnfant->getMere());
+
+                $enfants = $repoParents->findBy(['pere' => $userPere, 'mere' => $userMere]);
+            } else {
+                $userPere = null;
+                $userMere = null;
+
+                $enfants = [null];
+            }
+
+            $parents = [$userPere, $userMere];
         }
 
         return $this->render('arbre/arbre.html.twig', [
             'position' => $position,
             'user' => $user,
-            'conjoint' => $conjoint,
             'enfants' => $enfants,
             'parents' => $parents,
         ]);

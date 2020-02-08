@@ -8,7 +8,10 @@ let traitWidth = 0;
 
 cards.forEach((card, index) => {
 
-    if (index == 0 || index == cards.length - 1) {
+    if (cards.length == 1) {
+        traitWidth += (card.offsetWidth) + 40;
+    }
+    else if (index == 0 || index == cards.length - 1) {
         traitWidth += (card.offsetWidth / 2) + 20;
     }
     else {
