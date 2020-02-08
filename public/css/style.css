@@ -1,86 +1,90 @@
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-  }
-  
-  a {
-    text-decoration: none;
-  }
-  
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
 
-  
-  /*----------------------------------*/
-  
-  
-  .row-parent-genealogie{
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .row-enfant-genealogie{
-    display: flex;
-    justify-content: center;
-  }
-  
-  .cards-genealogie{
-    border: 1px solid black;
-    width: 150px;
-    overflow: auto;
-    text-align: center;
-    margin: 0 20px;
-    padding: 10px 0;
-  }
-  
-  .selection {
-    border: 1px dotted red;
-  }
-  
-  .cards-genealogie:hover {
-    background: lightgrey;
-    cursor: pointer;
-  }
-  
-  .cards-parent-trait {
-    background-color: blue;
-    width: 1px;
-    height: 30px;
-    margin: 0 auto;
-  }
-  
-  .cards-enfant-trait {
-    background-color: red;
-    width: 1px;
-    height: 30px;
-    margin: 0 auto;
-  }
-  
-  .trait-relation {
-    background-color: black;
-    height: 1px;
-    width: 420px;
-    margin: 0 auto;
-  }
-  
-  .bodyPopUp {
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.9);
-    position: absolute;
-    top: 0;
-    display: none;
-  }
-  
-  .popUp {
-    width: 50vw;
-    height: 50vh;
-    position: relative;
-    background: beige;
-    top: 60px;
-    margin: 0 auto;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+a {
+  text-decoration: none;
+}
+
+/*----------------------------------*/
+
+.row-parent-genealogie {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.row-enfant-genealogie {
+  display: flex;
+  justify-content: center;
+}
+
+.cards-genealogie {
+  border: 1px solid black;
+  width: 150px;
+  overflow: auto;
+  text-align: center;
+  margin: 0 20px;
+  padding: 10px 0;
+  position: relative;
+}
+
+.cards-genealogie .badge {
+  position: absolute;
+  top:0;
+  right:0;
+}
+
+.selection {
+  border: 1px dotted red;
+}
+
+.cards-genealogie:hover {
+  background: lightgrey;
+  cursor: pointer;
+}
+
+.cards-parent-trait {
+  background-color: blue;
+  width: 1px;
+  height: 30px;
+  margin: 0 auto;
+}
+
+.cards-enfant-trait {
+  background-color: red;
+  width: 1px;
+  height: 30px;
+  margin: 0 auto;
+}
+
+.trait-relation {
+  background-color: black;
+  height: 1px;
+  width: 420px;
+  margin: 0 auto;
+}
+
+.bodyPopUp {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  position: absolute;
+  top: 0;
+  display: none;
+}
+
+.popUp {
+  width: 50vw;
+  height: 50vh;
+  position: relative;
+  background: beige;
+  top: 60px;
+  margin: 0 auto;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
