@@ -24,17 +24,21 @@ class ArbreController extends AbstractController
 
             $userParent = $repoParents->findOneBy(['pere' => $user]);
 
+            if (!$userParent) {
+                $userParent = $repoParents->findOneBy(['mere' => $user]);
+            }
+
             if ($userParent) {
                 if ($user->getSexe() == 'm') {
                     $parents = [
                         $user,
-                        $repoUser->find($repoParents->findOneBy(['pere' => $user])->getMere()),
+                        $repoUser->find($userParent->getMere()),
                     ];
                     $enfants = $repoParents->findBy(['pere' => $user]);
                 } else {
                     $parents = [
+                        $repoUser->find($userParent->getPere()),
                         $user,
-                        $repoUser->find($repoParents->findOneBy(['mere' => $user])->getPere()),
                     ];
                     $enfants = $repoParents->findBy(['mere' => $user]);
                 }
