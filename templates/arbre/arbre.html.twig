@@ -30,7 +30,7 @@
 								{{parent.prenom|capitalize}}<br>
 								{{parent.nom|capitalize}}
 							</a>
-							<span class="badge badge-info d-block">💬</span>
+							<span class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal">💬</span>
 						{% endif %}
 
 					</div>
@@ -63,14 +63,14 @@
 									{{user.prenom|capitalize}}<br>
 									{{user.nom|capitalize}}
 								</a>
-								<span class="badge badge-info d-block">💬</span>
+								<span class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal">💬</span>
 							{% else %}
 								{# affichage de base #}
 								<a href="{{ path('arbre', {id: enfant.id, position: 'parent'}) }}">
 									{{enfant.prenom|capitalize}}<br>
 									{{enfant.nom|capitalize}}
 								</a>
-								<span type="button" data-user="{{enfant.id}}" data-toggle="modal"  data-target="#exampleModalCenter" class="badge badge-info d-block">💬</span>
+								<span type="button" data-user="{{enfant.id}}" data-toggle="modal" data-target="#exampleModalCenter" class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal">💬</span>
 							{% endif %}
 
 						</div>
@@ -87,27 +87,19 @@
 
 	</div>
 
-
-
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {# {{enfant.prenom}} #}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Oups...</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">Rien pour le moment 🤷‍♂️</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {# {% block javascripts %}
