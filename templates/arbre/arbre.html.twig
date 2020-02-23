@@ -30,7 +30,7 @@
 								{{parent.prenom|capitalize}}<br>
 								{{parent.nom|capitalize}}
 							</a>
-							<span class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal">💬</span>
+							<span type="button" class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal">💬</span>
 						{% endif %}
 
 					</div>
@@ -63,14 +63,14 @@
 									{{user.prenom|capitalize}}<br>
 									{{user.nom|capitalize}}
 								</a>
-								<span class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal">💬</span>
+								<span type="button" data-toggle="modal" data-target="#exampleModal" class="badge badge-info d-block">💬</span>
 							{% else %}
 								{# affichage de base #}
 								<a href="{{ path('arbre', {id: enfant.id, position: 'parent'}) }}">
 									{{enfant.prenom|capitalize}}<br>
 									{{enfant.nom|capitalize}}
 								</a>
-								<span type="button" data-user="{{enfant.id}}" data-toggle="modal" data-target="#exampleModalCenter" class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal">💬</span>
+								<span type="button" data-toggle="modal" data-target="#exampleModal" class="badge badge-info d-block" data-user="{{ enfant.id }}">💬</span>
 							{% endif %}
 
 						</div>
@@ -102,8 +102,19 @@
 	</div>
 {% endblock %}
 
-{# {% block javascripts %}
-<script>
-console.log(data-user);
-</script>
-{% endblock %} #}
+{% block javascripts %}
+	<script>
+
+		console.log("aaa");
+
+		$("span[type=button]").click(() => {
+
+			$.get("{{ path('user', {id: 2}) }}", function (data, status) {
+				$("#exampleModal .modal-title").html(data.data);
+				console.log(data.data);
+			});
+
+		});
+
+	</script>
+{% endblock %}

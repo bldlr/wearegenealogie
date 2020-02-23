@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\ParentsRepository;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ParentsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArbreController extends AbstractController
 {
@@ -100,5 +101,14 @@ class ArbreController extends AbstractController
             'enfants' => $enfants,
             'parents' => $parents,
         ]);
+    }
+
+    /**
+     * @Route("/user/{id}", name="user")
+     */
+    public function user(UserRepository $repoUser, $id) {
+        $user = $repoUser->find($id);
+
+        return new JsonResponse(['data' => $user->getPrenom()]);
     }
 }
