@@ -30,7 +30,7 @@
 								{{parent.prenom|capitalize}}<br>
 								{{parent.nom|capitalize}}
 							</a>
-							<span type="button" class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal">💬</span>
+							<span type="button" class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal"  data-user="{{ parent.id }}">💬</span>
 						{% endif %}
 
 					</div>
@@ -63,7 +63,7 @@
 									{{user.prenom|capitalize}}<br>
 									{{user.nom|capitalize}}
 								</a>
-								<span type="button" data-toggle="modal" data-target="#exampleModal" class="badge badge-info d-block">💬</span>
+								<span type="button" data-toggle="modal" data-target="#exampleModal" class="badge badge-info d-block" data-user="{{ user.id }}">💬</span>
 							{% else %}
 								{# affichage de base #}
 								<a href="{{ path('arbre', {id: enfant.id, position: 'parent'}) }}">
@@ -105,16 +105,24 @@
 {% block javascripts %}
 	<script>
 
-		console.log("aaa");
+		$(document).ready(() => {
 
-		$("span[type=button]").click(() => {
+			console.log("aaa");
 
-			$.get("{{ path('user', {id: 2}) }}", function (data, status) {
-				$("#exampleModal .modal-title").html(data.data);
-				console.log(data.data);
+			$("span[type=button]").click((event) => {
+
+				$id = event.target.getAttribute('data-user');
+
+				$path = "{{ path('user', {id: 'xxx'}) }}";
+				$path = $path.replace("xxx", $id);
+
+				$.get($path, function (data, status) {
+					$("#exampleModal .modal-title").html(data.nom);
+					$("#exampleModal .modal-body").html("<b>Date de naissance :</b> " + data.date);
+				});
+
 			});
 
 		});
-
 	</script>
 {% endblock %}

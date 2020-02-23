@@ -109,6 +109,9 @@ class ArbreController extends AbstractController
     public function user(UserRepository $repoUser, $id) {
         $user = $repoUser->find($id);
 
-        return new JsonResponse(['data' => $user->getPrenom()]);
+        return new JsonResponse([
+            'nom' => ucfirst($user->getPrenom()) . " " . ucfirst($user->getNom()),
+            'date' => date_format($user->getDate(), 'd/m/Y')
+        ]);
     }
 }
