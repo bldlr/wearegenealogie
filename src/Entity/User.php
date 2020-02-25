@@ -107,6 +107,6 @@ class User
     }
 
     public function __toString() {
-        return "lalalala";
+        return $this->getPrenom() . ' ' . $this->getNom();
     }
 }
