@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\UserNode;
-use App\Form\UserType;
 use App\Form\UserNodeType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,8 +23,8 @@ class FormulaireController extends AbstractController
         $mere = new User();
 
         $userNode->getUsers()->set('personne', $personne);
-        $userNode->getUsers()->set('personne', $pere);
-        $userNode->getUsers()->set('personne', $mere);
+        $userNode->getUsers()->set('pere', $pere);
+        $userNode->getUsers()->set('mere', $mere);
 
         $form = $this->createForm(UserNodeType::class, $userNode);
 
