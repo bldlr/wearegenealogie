@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="{{asset('css/style.css')}}">
-        <link rel="stylesheet" href="https://bootswatch.com/4/spacelab/bootstrap.min.css">
-        {% block stylesheets %}{% endblock %}
-        
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary" >
-            <div class="navbar-brand" >We'R Genealogy</div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav mr-auto">
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!{% endblock %}
+		</title>
+		<link rel="stylesheet" href="{{asset('css/style.css')}}">
+		<link rel="stylesheet" href="https://bootswatch.com/4/spacelab/bootstrap.min.css"> {% block stylesheets %}{% endblock %}
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path("listeMembres") }}">Listes des membres</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path("formulaire") }}">formulaire</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+		</head>
+		<body>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+				<a href="{{path('listeMembres')}}">
+					<div class="navbar-brand">We'R Genealogy</div>
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarColor01">
+					<ul class="navbar-nav mr-auto">
 
-        <h1 class=" rounded p-2 m-2 text-dark text-center mb-5">{% block monTitre %}{% endblock %}</h1>
-        
-        {% block body %}{% endblock %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path("listeMembres") }}">Listes des membres</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path("formulaire") }}">Formulaire</a>
+						</li>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path("parents_index") }}">CRUD Parents</a>
+						</li>
 
+					</ul>
+				</div>
+			</nav>
 
+			<h1 class=" rounded p-2 m-2 text-dark text-center"> {% block monTitre %}{% endblock %}
+				</h1>
 
-        
-        
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/script.js') }}"></script>
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+				{% block body %}{% endblock %}
+
+				<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+				<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+				<script src="{{ asset('js/script.js') }}"></script>
+
+				{% block javascripts %}{% endblock %}
+			</body>
+		</html>

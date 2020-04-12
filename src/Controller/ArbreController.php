@@ -111,7 +111,9 @@ class ArbreController extends AbstractController
 
         return new JsonResponse([
             'nom' => ucfirst($user->getPrenom()) . " " . ucfirst($user->getNom()),
-            'date' => date_format($user->getDate(), 'd/m/Y')
+            'date' => date_format($user->getDate(), 'd/m/Y'),
+            'lieu' => ucfirst($user->getLieu()),
+            'sexe' => $user->getSexe()
         ]);
     }
 }

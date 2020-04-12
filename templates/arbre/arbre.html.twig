@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Genealogy
-{% endblock %}
+{% block title %}Genealogy{% endblock %}
 {% block monTitre %}
 	{% if position == 'enfant' %}
 		Ascendance
@@ -91,12 +90,12 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLongTitle">Oups...</h5>
+					<h5 class="modal-title" id="exampleModalLongTitle">...</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">Rien pour le moment 🤷‍♂️</div>
+				<div class="modal-body">...</div>
 			</div>
 		</div>
 	</div>
@@ -107,8 +106,6 @@
 
 		$(document).ready(() => {
 
-			console.log("aaa");
-
 			$("span[type=button]").click((event) => {
 
 				$id = event.target.getAttribute('data-user');
@@ -118,7 +115,7 @@
 
 				$.get($path, function (data, status) {
 					$("#exampleModal .modal-title").html(data.nom);
-					$("#exampleModal .modal-body").html("<b>Date de naissance :</b> " + data.date);
+					$("#exampleModal .modal-body").html("<b>Date de naissance :</b> " + data.date + "<br><b>Lieu de naissance :</b> " + data.lieu + "<br><b>Sexe :</b> " + data.sexe);
 				});
 
 			});
