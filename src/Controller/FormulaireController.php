@@ -33,16 +33,18 @@ class FormulaireController extends AbstractController
 
         dump($form);
 
-        // if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        //     $user = $form->getData();
+            $userNode = $form->getData();
+            dump($userNode);
 
-        //     $entityManager = $this->getDoctrine()->getManager();
-        //     $entityManager->persist($userNode);
-        //     $entityManager->flush();
 
-        //     return $this->redirectToRoute('listeMembres');
-        // }
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($userNode);
+            // $entityManager->flush();
+
+            // return $this->redirectToRoute('listeMembres');
+        }
 
         return $this->render('formulaire/index.html.twig', [
             'form' => $form->createView()

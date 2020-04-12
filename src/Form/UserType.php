@@ -17,7 +17,8 @@ class UserType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('date', DateType::class, [
-                'years' => range(2020, 1901)
+                'years' => range(2020, 1901),
+                'input' => 'datetime',
             ])
             ->add('lieu')
             ->add('sexe')
