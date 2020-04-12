@@ -23,9 +23,9 @@ class FormulaireController extends AbstractController
         $pere = new User();
         $mere = new User();
 
-        $userNode->getUsers()->set('Personne', $personne);
-        $userNode->getUsers()->set('Père', $pere);
-        $userNode->getUsers()->set('Mère', $mere);
+        $userNode->getUsers()->set('personne', $personne);
+        $userNode->getUsers()->set('personne', $pere);
+        $userNode->getUsers()->set('personne', $mere);
 
         $form = $this->createForm(UserNodeType::class, $userNode);
 
