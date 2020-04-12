@@ -10,18 +10,24 @@
 
 {% block body %}
 	<div class="col-6 mx-auto mb-3">
-		<div class="border my-3 p-2">
-			{{ form_start(form) }}
-			<h3>Users</h3>
-			<ul class="users" style="list-style-type: none">
-				{% for user in form.users %}
-					<div class="border border-primary my-3 p-2">
-						<li>{{ form(user) }}</li>
-					</div>
-				{% endfor %}
-				{{ form_row(form.envoyer) }}
-			</ul>
-			{{ form_end(form) }}
-		</div>
+		{{ form_start(form) }}
+		<ul class="users" style="list-style-type: none">
+			{% for user in form.users %}
+				<div class="border border-primary my-3 p-2">
+					<h4>
+						{% if user.vars.name == 'personne' %}
+						Personne
+						{% elseif user.vars.name == 'pere' %}
+						Père
+						{% elseif user.vars.name == 'mere' %}
+						Mère
+						{% endif %}
+					</h4>
+					<li>{{ form(user) }}</li>
+				</div>
+			{% endfor %}
+			{{ form_row(form.envoyer) }}
+		</ul>
+		{{ form_end(form) }}
 	</div>
 {% endblock %}

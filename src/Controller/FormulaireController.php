@@ -22,6 +22,7 @@ class FormulaireController extends AbstractController
         $pere = new User();
         $mere = new User();
 
+        // on fait set() pour que le premier argument (la key) apparaisse en tant que titre du formulaire qui lui est attitré
         $userNode->getUsers()->set('personne', $personne);
         $userNode->getUsers()->set('pere', $pere);
         $userNode->getUsers()->set('mere', $mere);
