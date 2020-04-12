@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FormulaireController!
+{% endblock %}
+
+{% block body %}
+	{{form_start(form)}}
+        <ul>
+        {% for person in form.person %}
+            <li>{{ form_row(person.nom) }}</li>
+            <li>{{ form_row(person.prenom) }}</li>
+            <li>{{ form_row(person.date) }}</li>
+            <li>{{ form_row(person.lieu) }}</li>
+            <li>{{ form_row(person.sexe) }}</li>
+        {% endfor %}
+        </ul>
+         <ul>
+        {% for pere in form.pere %}
+            <li>{{ form_row(pere.nom) }}</li>
+            <li>{{ form_row(pere.prenom) }}</li>
+            <li>{{ form_row(pere.date) }}</li>
+            <li>{{ form_row(pere.lieu) }}</li>
+            <li>{{ form_row(pere.sexe) }}</li>
+        {% endfor %}
+        </ul>
+         <ul>
+        {% for person in form.mere %}
+            <li>{{ form_row(mere.nom) }}</li>
+            <li>{{ form_row(mere.prenom) }}</li>
+            <li>{{ form_row(mere.date) }}</li>
+            <li>{{ form_row(mere.lieu) }}</li>
+            <li>{{ form_row(mere.sexe) }}</li>
+        {% endfor %}
+        </ul>
+	<div class="row justify-content-center">
+		<input type="submit" class="btn btn-info pr-4 pl-4" value="Valider">
+	</div>
+    
+	{{form_end(form)}}
+{% endblock %}

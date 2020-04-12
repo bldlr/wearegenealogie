@@ -106,7 +106,8 @@ class User
         return $this;
     }
 
-    public function __toString() {
-        return "lalalala";
+    public function __toString()
+    {
+        return $this->nom;
     }
 }
