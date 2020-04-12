@@ -2,32 +2,29 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Entity\UserNode;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class UserType extends AbstractType
+class UserNodeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('prenom')
-            ->add('date', DateType::class, [
-                'years' => range(2020, 1901)
+            ->add('users', CollectionType::class, [
+                'entry_type' => UserType::class,
+                'entry_options' => ['label' => false],
             ])
-            ->add('lieu')
-            ->add('sexe')
-            ;
+            ->add('envoyer', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => UserNode::class,
         ]);
     }
 }

@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formulaire
+{% block title %}
+	Formulaire
 {% endblock %}
 
 {% block monTitre %}
@@ -9,9 +10,19 @@
 
 {% block body %}
 	<div class="col-6 mx-auto mb-3">
-		<h4>Ajout d'une nouvelle personne :</h4>
 		<div class="border my-3 p-2">
-            {{ form(form) }}
+			{{ form_start(form) }}
+			<h3>Users</h3>
+			<ul class="users" style="list-style-type: none">
+				{% for user in form.users %}
+					<h3></h3>
+					<div class="border border-primary my-3 p-2">
+						<li>{{ form(user) }}</li>
+					</div>
+				{% endfor %}
+				{{ form_row(form.envoyer) }}
+			</ul>
+			{{ form_end(form) }}
 		</div>
-    </div>
+	</div>
 {% endblock %}
