@@ -23,7 +23,12 @@
 						Mère
 						{% endif %}
 					</h4>
-					<li>{{ form(user) }}</li>
+					<!-- il faut faire un form_row pour chaque propriété de l'entité, parce que si on fait un simple form(user), Twig crée une nouvelle balise <form> au sein de la précédente, ce qui fait qu'il n'envoie que le premier des trois formulaires -->
+					<li>{{ form_row(user.nom) }}</li>
+					<li>{{ form_row(user.prenom) }}</li>
+					<li>{{ form_row(user.date) }}</li>
+					<li>{{ form_row(user.lieu) }}</li>
+					<li>{{ form_row(user.sexe) }}</li>
 				</div>
 			{% endfor %}
 			{{ form_row(form.envoyer) }}

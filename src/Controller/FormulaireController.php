@@ -49,23 +49,21 @@ class FormulaireController extends AbstractController
         $userNode->getUsers()->set('pere', $pere);
         $userNode->getUsers()->set('mere', $mere);
 
-        dump($userNode);
-
         $form = $this->createForm(UserNodeType::class, $userNode);
 
         $form->handleRequest($request);
 
-        dump($form);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $userNode = $form->getData();
-            dump($userNode);
+            $userNodeUsers = $form->getData()->getUsers();
+            $entityManager = $this->getDoctrine()->getManager();
 
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($userNode);
-            // $entityManager->flush();
+            // TODO : rajouter ici la création de relations Parent entre les User
+            foreach ($userNodeUsers as $user) {
+                $entityManager->persist($user);
+                $entityManager->flush();
+            }
 
-            // return $this->redirectToRoute('listeMembres');
+            return $this->redirectToRoute('listeMembres');
         }
 
         return $this->render('formulaire/index.html.twig', [
