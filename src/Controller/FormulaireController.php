@@ -79,8 +79,8 @@ class FormulaireController extends AbstractController
                 $entityManagers->persist($parents);
                 $entityManagers->flush();
     
-
-            return $this->redirectToRoute('listeMembres');
+            // redirige sur la page Arbre où l'id Personne ($parentUser) est en position enfant
+            return $this->redirectToRoute('arbre', array('id' => $parentUser->getId(), "position" => "enfant"));
         
         }
         return $this->render('formulaire/index.html.twig', [
