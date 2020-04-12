@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\UserNode;
-use App\Form\UserNodeType;
 use DateTime;
+use App\Entity\User;
+use App\Entity\Parents;
+use App\Entity\UserNode;
+use App\Form\Parents1Type;
+use App\Form\UserNodeType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,10 +64,25 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
             }
+        
+            $parents = new Parents();
+
+            $parentUser = $userNodeUsers['personne'];
+            $parentPere = $userNodeUsers['pere'];
+            $parentMere = $userNodeUsers['mere'];
+            
+                $parents->setUser($parentUser);
+                $parents->setPere($parentPere);
+                $parents->setMere($parentMere);
+
+                $entityManagers = $this->getDoctrine()->getManager();
+                $entityManagers->persist($parents);
+                $entityManagers->flush();
+    
 
             return $this->redirectToRoute('listeMembres');
+        
         }
-
         return $this->render('formulaire/index.html.twig', [
             'form' => $form->createView()
         ]);
