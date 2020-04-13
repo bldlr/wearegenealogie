@@ -65,22 +65,25 @@ class FormulaireController extends AbstractController
                 $entityManager->flush();
             }
 
-            $parents = new Parents();
+            if (!$parent) {
+                $parents = new Parents();
 
-            $parentUser = $userNodeUsers['personne'];
-            $parentPere = $userNodeUsers['pere'];
-            $parentMere = $userNodeUsers['mere'];
-
-            $parents->setUser($parentUser);
-            $parents->setPere($parentPere);
-            $parents->setMere($parentMere);
-
-            $entityManagers = $this->getDoctrine()->getManager();
-            $entityManagers->persist($parents);
-            $entityManagers->flush();
+                $parentUser = $userNodeUsers['personne'];
+                $parentPere = $userNodeUsers['pere'];
+                $parentMere = $userNodeUsers['mere'];
+    
+                $parents
+                    ->setUser($parentUser)
+                    ->setPere($parentPere)
+                    ->setMere($parentMere)
+                    ;
+    
+                $entityManager->persist($parents);
+                $entityManager->flush();
+            }
 
             // redirige sur la page Arbre où l'id Personne ($parentUser) est en position enfant
-            return $this->redirectToRoute('arbre', array('id' => $parentUser->getId(), "position" => "enfant"));
+            return $this->redirectToRoute('arbre', array('id' => $personne->getId(), "position" => "enfant"));
         }
 
         return $this->render('formulaire/index.html.twig', [
