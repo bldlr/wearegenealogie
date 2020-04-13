@@ -74,12 +74,16 @@ class ArbreController extends AbstractController
             if ($userEnfant) {
 
                 // s'il y a des parents, on les stocke dans leurs variables respectives
-                $userPere = $repoUser->find($userEnfant->getPere());
-                $userMere = $repoUser->find($userEnfant->getMere());
+                $userPere = $userEnfant->getPere() ? $repoUser->find($userEnfant->getPere()) : null;
+                $userMere = $userEnfant->getMere() ? $repoUser->find($userEnfant->getMere()) : null;
 
-                // avec cette boucle on récupère la fratrie de $user
-                foreach ($repoParents->findFratrieOrder($userPere, $userMere) as $enfant) {
-                    $enfants[] = $enfant->getUser();
+                if (!$userPere || !$userMere) {
+                    $enfants[] = $user;
+                } else {
+                    // avec cette boucle on récupère la fratrie de $user
+                    foreach ($repoParents->findFratrieOrder($userPere, $userMere) as $enfant) {
+                        $enfants[] = $enfant->getUser();
+                    }
                 }
 
             } else {
