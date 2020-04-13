@@ -29,7 +29,10 @@
 								{{parent.prenom|capitalize}}<br>
 								{{parent.nom|capitalize}}
 							</a>
+							
 							<span type="button" class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal"  data-user="{{ parent.id }}">💬</span>
+							<a href="{{ path('usernode_edit', {id: parent.id}) }}"><img style="width:25px; top:20px;" class="badge badge-light d-block" src="{{asset('images/settings.png')}}"></a>
+							
 						{% endif %}
 
 					</div>
@@ -63,6 +66,7 @@
 									{{user.nom|capitalize}}
 								</a>
 								<span type="button" data-toggle="modal" data-target="#exampleModal" class="badge badge-info d-block" data-user="{{ user.id }}">💬</span>
+								<a href="{{ path('usernode_edit', {id: user.id}) }}"><img style="width:25px; top:20px;" class="badge badge-light d-block" src="{{asset('images/settings.png')}}"></a>
 							{% else %}
 								{# affichage de base #}
 								<a href="{{ path('arbre', {id: enfant.id, position: 'parent'}) }}">
@@ -70,6 +74,7 @@
 									{{enfant.nom|capitalize}}
 								</a>
 								<span type="button" data-toggle="modal" data-target="#exampleModal" class="badge badge-info d-block" data-user="{{ enfant.id }}">💬</span>
+								<a href="{{ path('usernode_edit', {id: enfant.id}) }}"><img style="width:25px; top:20px;" class="badge badge-light d-block" src="{{asset('images/settings.png')}}"></a>
 							{% endif %}
 
 						</div>
