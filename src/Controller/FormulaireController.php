@@ -16,54 +16,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class FormulaireController extends AbstractController
 {
     /**
-     * @Route("/usernode/new", name="usernode_new")
-     * @Route("/usernode/{id}", name="usernode_edit", methods="GET|POST")
+     * @Route("/formulaire", name="usernode_new")
+     * @Route("/formulaire/{id}", name="usernode_edit", methods="GET|POST")
      */
-    public function newUserNode(User $user = null, Request $request, ParentsRepository $repoParents)
+    public function newUserNode(Request $request, ParentsRepository $repoParents, User $user = null)
     {
+        // SF comprend naturellement le rapport entre {id} dans l'url et une entité User
+
         $userNode = new UserNode();
-
-        // if(!$user){
-        //     $personne = new User();
-        //     $pere = new User();
-        //     $mere = new User();
-            
-        // }
         
-        // else
-        // {
-        //     $personne = $repoParents->findOneBy(['user' => $user]);
-        //     $pere = $personne->getPere();
-        //     $mere = $personne->getMere();
-
-        // }
-        // dump($user);
-     
-
-        $personne = new User();
-        $personne
-            ->setNom('Virus')
-            ->setPrenom('Corona')
-            ->setDate(new DateTime('1/01/2006'))
-            ->setLieu('Paris')
-            ->setSexe('m')
-            ;
-        $pere = new User();
-        $pere
-            ->setNom('N1')
-            ->setPrenom('H1')
-            ->setDate(new DateTime('1/01/1970'))
-            ->setLieu('Paris')
-            ->setSexe('m')
-            ;
-        $mere = new User();
-        $mere
-            ->setNom('DS')
-            ->setPrenom('AI')
-            ->setDate(new DateTime('1/01/1970'))
-            ->setLieu('Paris')
-            ->setSexe('f')
-            ;
+        // s'il n'y a pas d'id dans l'url, on part de trois User vides
+        if (!$user) {
+            $personne = new User();
+            $pere = new User();
+            $mere = new User();
+        } else {
+            // s'il y a un id, on regarde si le user a des parents
+            $parent = $repoParents->findOneBy(['user' => $user]);
+            if (!$parent) {
+                // s'il n'a pas de parents, on n'injecte que lui dans le form
+                $personne = $user;
+                $pere = new User();
+                $mere = new User();
+            } else {
+                // s'il a des parents, on les injecte tous les trois en partant de leur relation Parent
+                $personne = $parent->getUser();
+                $pere = $parent->getPere();
+                $mere = $parent->getMere();
+            }
+        }
 
         // on fait set() pour que le premier argument (la key) apparaisse en tant que titre du formulaire qui lui est attitré
         $userNode->getUsers()->set('personne', $personne);
@@ -83,30 +64,27 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
             }
-        
+
             $parents = new Parents();
 
             $parentUser = $userNodeUsers['personne'];
             $parentPere = $userNodeUsers['pere'];
             $parentMere = $userNodeUsers['mere'];
-            
-                $parents->setUser($parentUser);
-                $parents->setPere($parentPere);
-                $parents->setMere($parentMere);
 
-                $entityManagers = $this->getDoctrine()->getManager();
-                $entityManagers->persist($parents);
-                $entityManagers->flush();
-    
+            $parents->setUser($parentUser);
+            $parents->setPere($parentPere);
+            $parents->setMere($parentMere);
+
+            $entityManagers = $this->getDoctrine()->getManager();
+            $entityManagers->persist($parents);
+            $entityManagers->flush();
+
             // redirige sur la page Arbre où l'id Personne ($parentUser) est en position enfant
             return $this->redirectToRoute('arbre', array('id' => $parentUser->getId(), "position" => "enfant"));
-        
         }
+
         return $this->render('formulaire/index.html.twig', [
             'form' => $form->createView()
         ]);
     }
-
-
-    
 }
