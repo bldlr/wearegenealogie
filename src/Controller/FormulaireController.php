@@ -23,6 +23,7 @@ class FormulaireController extends AbstractController
     {
         // SF comprend naturellement le rapport entre {id} dans l'url et une entité User
 
+        $parent = null;
         $userNode = new UserNode();
         
         // s'il n'y a pas d'id dans l'url, on part de trois User vides
