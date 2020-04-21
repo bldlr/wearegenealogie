@@ -34,8 +34,10 @@ class UserNodeType extends AbstractType
             ->add('envoyer', SubmitType::class);
 
         $builder->addEventListener(
+            // l'event se déroule juste après qu'on ait envoyé des données dans le formulaire (par exemple quand ça concerne des User déjà présents en BDD)
             FormEvents::POST_SET_DATA,
             function (FormEvent $event) {
+                // on boucle sur chaque form et on injecte une checkbox lorsque le form ne s'appelle pas 'personne'
                 foreach ($event->getForm()->get('users') as $userForm) {
                     if ($userForm->getName() != 'personne') {
                         $this->injecterCheck($userForm);

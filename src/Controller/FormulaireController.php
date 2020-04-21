@@ -56,24 +56,30 @@ class FormulaireController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $userNode = [];
+            $userNode = []; // variable qui sert à stocker les User pour renseigner la relation Parents (s'il faut en créer une)
 
+            // on boucle sur chaque form (et non pas directement les User)
             foreach ($form->get('users') as $userForm) {
+                // 1 form = 1 user, ici on le récupère
                 $user = $userForm->getData();
+                // comme on boucle sur les form, on a accès à leurs clés dans l'arraycollection du UserNode, du coup on peut faire deux conditions qui disent : si le form ne s'appelle pas 'personne' et qu'on n'a pas coché Parent inconnu, alors ce User est persist et sera renseigné dans le Parents
                 if ($userForm->getName() != 'personne') {
                     if (!$userForm->get('check')->getData()) {
                         $userNode[$userForm->getName()] = $user;
                         $entityManager->persist($user);
                     }
+                // si on n'est pas rentré dans le if, c'est que c'est le form de $personne, on le persist dans tous les cas
                 } else {
                     $userNode[$userForm->getName()] = $user;
                     $entityManager->persist($user);
                 }
             }
 
+            // si au début du Controller on n'a pas trouvé de Parents correspond à $personne, on va créer une nouvelle relation
             if (!$parent) {
                 $parents = new Parents();
 
+                // les différentes personnes sont récupérées depuis $userNode
                 $parentUser = $userNode['personne'];
                 $parentPere = isset($userNode['pere']) ? $userNode['pere'] : null;
                 $parentMere = isset($userNode['mere']) ? $userNode['mere'] : null;
