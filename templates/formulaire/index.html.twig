@@ -29,6 +29,9 @@
 					<li>{{ form_row(user.date) }}</li>
 					<li>{{ form_row(user.lieu) }}</li>
 					<li>{{ form_row(user.sexe) }}</li>
+					{% if user.vars.name != 'personne' %}
+						<li>{{ form_row(user.check) }}</li>
+					{% endif %}
 				</div>
 			{% endfor %}
 			{{ form_row(form.envoyer) }}
