@@ -66,6 +66,12 @@ class FormulaireController extends AbstractController
                 if ($userForm->getName() != 'personne') {
                     if (!$userForm->get('check')->getData()) {
                         $userNode[$userForm->getName()] = $user;
+                        if ($userForm->getName() == 'pere'){
+                            $user->setSexe('m');
+                        }else{
+                            $user->setSexe('f');
+                        }
+                        
                         $entityManager->persist($user);
                     }
                 // si on n'est pas rentré dans le if, c'est que c'est le form de $personne, on le persist dans tous les cas

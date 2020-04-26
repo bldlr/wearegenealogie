@@ -22,7 +22,7 @@ class UserType extends AbstractType
                 'input' => 'datetime'
             ])
             ->add('lieu', TextType::class)
-            ->add('sexe', TextType::class)
+            
             ;
     }
 
