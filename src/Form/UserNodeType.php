@@ -45,10 +45,10 @@ class UserNodeType extends AbstractType
             function (FormEvent $event) {
                 // on boucle sur chaque form et on injecte une checkbox lorsque le form ne s'appelle pas 'personne'
                 foreach ($event->getForm()->get('users') as $userForm) {
-                    if ($userForm->getName() != 'personne') {
+                    if ($userForm->getName() == 'pere' || $userForm->getName() == 'mere') {
                         $this->injecterCheck($userForm);
                     }
-                    elseif ($userForm->getName() == 'personne') {
+                    elseif ($userForm->getName() != 'pere' || $userForm->getName() != 'mere') {
                         $this->injecterSexe($userForm);
                     }
                 }
