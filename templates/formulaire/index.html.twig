@@ -28,7 +28,7 @@
 					<li>{{ form_row(user.prenom) }}</li>
 					<li>{{ form_row(user.date) }}</li>
 					<li>{{ form_row(user.lieu) }}</li>
-					{% if user.vars.name == 'personne' %}
+					{% if user.vars.name != 'pere' and  user.vars.name != 'mere' %}
 					<li>{{ form_row(user.sexe) }}</li>
 					{% endif %}
 					{% if user.vars.name != 'personne' %}
