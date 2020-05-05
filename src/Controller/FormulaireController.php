@@ -83,21 +83,21 @@ class FormulaireController extends AbstractController
 
             // si au début du Controller on n'a pas trouvé de Parents correspond à $personne, on va créer une nouvelle relation
             if (!$parent) {
-                $parents = new Parents();
-
-                // les différentes personnes sont récupérées depuis $userNode
-                $parentUser = $userNode['personne'];
-                $parentPere = isset($userNode['pere']) ? $userNode['pere'] : null;
-                $parentMere = isset($userNode['mere']) ? $userNode['mere'] : null;
-    
-                $parents
-                    ->setUser($parentUser)
-                    ->setPere($parentPere)
-                    ->setMere($parentMere)
-                    ;
-    
-                $entityManager->persist($parents);
+                $parent = new Parents();
             }
+
+            // les différentes personnes sont récupérées depuis $userNode
+            $parentUser = $userNode['personne'];
+            $parentPere = isset($userNode['pere']) ? $userNode['pere'] : null;
+            $parentMere = isset($userNode['mere']) ? $userNode['mere'] : null;
+
+            $parent
+                ->setUser($parentUser)
+                ->setPere($parentPere)
+                ->setMere($parentMere)
+                ;
+
+            $entityManager->persist($parent);
             
             $entityManager->flush();
 
