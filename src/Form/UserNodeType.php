@@ -29,6 +29,8 @@ class UserNodeType extends AbstractType
     private function injecterSexe(Form $form)
     {
         $form->add('sexe', ChoiceType::class, [
+            'required' => false,
+            'placeholder' => 'Je ne sais pas',
             'choices' => [
                 'Homme' => 'm',
                 'Femme' => 'f'
