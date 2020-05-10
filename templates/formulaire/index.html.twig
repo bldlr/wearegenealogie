@@ -23,6 +23,14 @@
 						Mère
 						{% endif %}
 					</h4>
+					<p>
+						{% for message in app.flashes('error-' ~ user.vars.name) %}
+							<div class="alert alert-danger">
+								{{message}}
+							</div>
+						{% endfor %}
+					
+					</p>
 					<!-- il faut faire un form_row pour chaque propriété de l'entité, parce que si on fait un simple form(user), Twig crée une nouvelle balise <form> au sein de la précédente, ce qui fait qu'il n'envoie que le premier des trois formulaires -->
 					<li>{{ form_row(user.nom) }}</li>
 					<li>{{ form_row(user.prenom) }}</li>
