@@ -17,27 +17,27 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $prenom;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lieu;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $sexe;
 
@@ -51,7 +51,7 @@ class User
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(?string $nom): self
     {
         $this->nom = $nom;
 
@@ -63,7 +63,7 @@ class User
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): self
+    public function setPrenom(?string $prenom): self
     {
         $this->prenom = $prenom;
 
@@ -75,7 +75,7 @@ class User
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -87,7 +87,7 @@ class User
         return $this->lieu;
     }
 
-    public function setLieu(string $lieu): self
+    public function setLieu(?string $lieu): self
     {
         $this->lieu = $lieu;
 
@@ -99,7 +99,7 @@ class User
         return $this->sexe;
     }
 
-    public function setSexe(string $sexe): self
+    public function setSexe(?string $sexe): self
     {
         $this->sexe = $sexe;
 

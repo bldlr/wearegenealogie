@@ -15,13 +15,20 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom', TextType::class)
-            ->add('prenom', TextType::class)
+            ->add('nom', TextType::class, [
+                'required' => false
+            ])
+            ->add('prenom', TextType::class, [
+                'required' => false
+            ])
             ->add('date', DateType::class, [
+                'required' => false,
                 'years' => range(2020, 1901),
                 'input' => 'datetime'
             ])
-            ->add('lieu', TextType::class)
+            ->add('lieu', TextType::class, [
+                'required' => false
+            ])
             
             ;
     }
