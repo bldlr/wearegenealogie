@@ -40,7 +40,7 @@ class ArbreController extends AbstractController
                 if ($user->getSexe() == 'm') {
                     $parents = [
                         $user,
-                        $repoUser->find($userParent->getMere()),
+                        $userParent->getMere() ? $repoUser->find($userParent->getMere()) : null,
                     ];
                     $enfantsRepoParents = $repoParents->findEnfantsPereOrder($user);
                     foreach ($enfantsRepoParents as $enfant) {
