@@ -49,3 +49,25 @@
 		{{ form_end(form) }}
 	</div>
 {% endblock %}
+
+{% block javascripts %}
+	<script>
+		$(document).ready(() => {
+			$("input[type=checkbox]").change((event) => {
+				$thisFormParent = event.target.parentNode.parentNode.parentNode.parentNode;
+				$($thisFormParent).css('position', 'relative');
+				$thisForm = event.target.parentNode.parentNode.parentNode;
+				$($thisForm).toggleClass('form-grise');
+				// TODO : faire en sorte qu'il soit appliqué dès le chargement de la page si la checkbox est déjà cochée
+				$isDisabled = $($thisFormParent).find('input:not([type=checkbox])').prop('disabled');
+				$isDisabled = !$isDisabled ? true : false;
+				$($thisFormParent).find('input:not([type=checkbox])').prop({
+					disabled: $isDisabled
+				});
+				$($thisFormParent).find('select').prop({
+					disabled: $isDisabled
+				});
+			});
+		});
+	</script>
+{% endblock %}
