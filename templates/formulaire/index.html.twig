@@ -54,7 +54,7 @@
 					{% if user.vars.name == 'mere' %}
 						<!-- Si dans la table Parents Mere == NULL -->
 						{% if user.vars.data is empty %}
-							<li style="background:red">{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+							<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
 						{% else %}
 
 							<!-- Mere existe soit par une nouvelle instance soit dans la table User -->
@@ -65,14 +65,14 @@
 								<!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
 								<!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
 								{% if personData %}
-									<li style="background:blue">{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+									<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
 								{% else %}
-									<li style="background:yellow">{{ form_row(user.check) }}</li>
+									<li>{{ form_row(user.check) }}</li>
 								{% endif %}
 							{% else %}
 							<!-- s'il y a un sexe alors l'instance vient de la BDD -->
 
-								<li style="background:green">{{ form_row(user.check) }}</li>
+								<li>{{ form_row(user.check) }}</li>
 
 								
 							{% endif %}
@@ -83,7 +83,7 @@
 					{% elseif user.vars.name == 'pere' %}
 						<!-- Si dans la table Parents Pere == NULL -->
 						{% if user.vars.data is empty %}
-							<li style="background:red">{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+							<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
 						{% else %}
 
 							<!-- Pere existe soit par une nouvelle instance soit dans la table User -->
@@ -94,24 +94,18 @@
 								<!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
 								<!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
 								{% if personData %}
-									<li style="background:blue">{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+									<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
 								{% else %}
-									<li style="background:yellow">{{ form_row(user.check) }}</li>
+									<li>{{ form_row(user.check) }}</li>
 								{% endif %}
 
 							{% else %}
 								<!-- s'il y a un sexe alors l'instance vient de la BDD -->
-								<li style="background:green">{{ form_row(user.check) }}</li>
+								<li>{{ form_row(user.check) }}</li>
 							{% endif %}
 
 						{% endif %}
 					{% endif %}
-					{# code couleur :
-					- red : parent qui est NULL dans l'instance Parents => CHECKED
-					- green : parent qui a un ID dans l'instance Parents => NON CHECKED
-					- blue : parent qui n'est ni en tant que pere ou mere dans une instance Parents => CHECKED
-					- yellow : parent sans instance lors de la création d'un formulaire => NON CHECKED
-					 #}
 
 					
 				</div>
