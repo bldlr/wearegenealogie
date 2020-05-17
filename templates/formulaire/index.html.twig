@@ -36,12 +36,78 @@
 					<li>{{ form_row(user.prenom) }}</li>
 					<li>{{ form_row(user.date) }}</li>
 					<li>{{ form_row(user.lieu) }}</li>
+
+
+						{# PersonData définit l'existance de Personne en BDD en fonction de son champ ID  #}
+						{% if user.vars.name == 'personne'%}
+							{% set personData = false %}
+								{% if not user.vars.data.id is null %}
+									{% set personData = true %}
+								{% endif %}
+						{% endif %}
+
+
 					{% if user.vars.name != 'pere' and  user.vars.name != 'mere' %}
-					<li>{{ form_row(user.sexe) }}</li>
+						<li>{{ form_row(user.sexe) }}</li>
 					{% endif %}
-					{% if user.vars.name != 'personne' %}
-						<li>{{ form_row(user.check) }}</li>
+
+					{% if user.vars.name == 'mere' %}
+						<!-- Si dans la table Parents Mere == NULL -->
+						{% if user.vars.data is empty %}
+							<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+						{% else %}
+
+							<!-- Mere existe soit par une nouvelle instance soit dans la table User -->
+							<!-- Le sexe se génère dans le controlleur lors de l'envoi en BDD -->
+							<!-- s'il n'y a pas de sexe alors rien en BDD -->
+							{% if user.vars.data.sexe is empty %}
+								<!-- Lorsqu'on est dans un forumaire, il existe 2 cas où il n'y a pas de mère en BDD  -->
+								<!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
+								<!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
+								{% if personData %}
+									<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+								{% else %}
+									<li>{{ form_row(user.check) }}</li>
+								{% endif %}
+							{% else %}
+							<!-- s'il y a un sexe alors l'instance vient de la BDD -->
+
+								<li>{{ form_row(user.check) }}</li>
+
+								
+							{% endif %}
+
+						{% endif %}
+						
+
+					{% elseif user.vars.name == 'pere' %}
+						<!-- Si dans la table Parents Pere == NULL -->
+						{% if user.vars.data is empty %}
+							<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+						{% else %}
+
+							<!-- Pere existe soit par une nouvelle instance soit dans la table User -->
+							<!-- Le sexe se génère dans le controlleur lors de l'envoi en BDD -->
+							<!-- s'il n'y a pas de sexe alors rien en BDD -->
+							{% if user.vars.data.sexe is empty %}
+								<!-- Lorsqu'on est dans un forumaire, il existe 2 cas où il n'y a pas de mère en BDD  -->
+								<!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
+								<!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
+								{% if personData %}
+									<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+								{% else %}
+									<li>{{ form_row(user.check) }}</li>
+								{% endif %}
+
+							{% else %}
+								<!-- s'il y a un sexe alors l'instance vient de la BDD -->
+								<li>{{ form_row(user.check) }}</li>
+							{% endif %}
+
+						{% endif %}
 					{% endif %}
+
+					
 				</div>
 			{% endfor %}
 			{{ form_row(form.envoyer) }}
