@@ -120,7 +120,15 @@
 
 				$.get($path, function (data, status) {
 					$("#exampleModal .modal-title").html(data.nom);
-					$("#exampleModal .modal-body").html("<b>Date de naissance :</b> " + data.date + "<br><b>Lieu de naissance :</b> " + data.lieu + "<br><b>Sexe :</b> " + data.sexe);
+					$("#exampleModal .modal-body").html(
+						"<b>Date de naissance :</b> " + data.dateNaissance + 
+						"<br><b>Ville de naissance :</b> " + data.villeNaissance + 
+						"<br><b>Pays de naissance :</b> " + data.paysNaissance + 
+						"<br><br><b>Date de décès :</b> " + data.dateDeces + 
+						"<br><b>Ville de décès :</b> " + data.villeDeces + 
+						"<br><b>Pays de décès :</b> " + data.paysDeces + 
+						"<br><br><b>Sexe :</b> " + data.sexe
+						);
 				});
 
 			});

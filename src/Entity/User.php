@@ -29,12 +29,33 @@ class User
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $date;
+    private $dateNaissance;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $lieu;
+    private $villeNaissance;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paysNaissance;
+
+
+        /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateDeces;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $villeDeces;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paysDeces;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -70,26 +91,75 @@ class User
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDateNaissance(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->dateNaissance;
     }
 
-    public function setDate(?\DateTimeInterface $date): self
+    public function setDateNaissance(?\DateTimeInterface $dateNaissance): self
     {
-        $this->date = $date;
+        $this->dateNaissance = $dateNaissance;
 
         return $this;
     }
 
-    public function getLieu(): ?string
+    public function getVilleNaissance(): ?string
     {
-        return $this->lieu;
+        return $this->villeNaissance;
     }
 
-    public function setLieu(?string $lieu): self
+    public function setVilleNaissance(?string $villeNaissance): self
     {
-        $this->lieu = $lieu;
+        $this->villeNaissance = $villeNaissance;
+
+        return $this;
+    }
+
+    public function getPaysNaissance(): ?string
+    {
+        return $this->paysNaissance;
+    }
+
+    public function setPaysNaissance(?string $paysNaissance): self
+    {
+        $this->paysNaissance = $paysNaissance;
+
+        return $this;
+    }
+
+
+    public function getDateDeces(): ?\DateTimeInterface
+    {
+        return $this->dateDeces;
+    }
+
+    public function setDateDeces(?\DateTimeInterface $dateDeces): self
+    {
+        $this->dateDeces = $dateDeces;
+
+        return $this;
+    }
+
+    public function getVilleDeces(): ?string
+    {
+        return $this->villeDeces;
+    }
+
+    public function setVilleDeces(?string $villeDeces): self
+    {
+        $this->villeDeces = $villeDeces;
+
+        return $this;
+    }
+
+    public function getPaysDeces(): ?string
+    {
+        return $this->paysDeces;
+    }
+
+    public function setPaysDeces(?string $paysDeces): self
+    {
+        $this->paysDeces = $paysDeces;
 
         return $this;
     }

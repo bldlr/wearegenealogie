@@ -112,12 +112,26 @@ class ArbreController extends AbstractController
      */
     public function user(UserRepository $repoUser, $id) {
         $user = $repoUser->find($id);
+        $dateNaissanceModal = ($user->getDateNaissance()) ? date_format($user->getDateNaissance(), 'd F Y') : "Non renseignée";
+        $villeNaissanceModal = ($user->getVilleNaissance()) ? ucfirst(($user->getVilleNaissance())) : "Non renseignée";
+        $paysNaissanceModal = ($user->getPaysNaissance()) ? strtoupper(($user->getPaysNaissance())) : "Non renseigné";
 
+        $dateDecesModal = ($user->getDateDeces()) ? date_format($user->getDateDeces(), 'd F Y') : "Non renseignée";
+        $villeDecesModal = ($user->getVilleDeces()) ? ucfirst(($user->getVilleDeces())) : "Non renseignée";
+        $paysDecesModal = ($user->getPaysDeces()) ? strtoupper(($user->getPaysDeces())) : "Non renseigné";
+
+        $sexeModal = ($user->getSexe() == "m") ? "Homme" : "Femme";
+
+      
         return new JsonResponse([
             'nom' => ucfirst($user->getPrenom()) . " " . ucfirst($user->getNom()),
-            'date' => date_format($user->getDate(), 'd/m/Y'),
-            'lieu' => ucfirst($user->getLieu()),
-            'sexe' => $user->getSexe()
+            'dateNaissance' => $dateNaissanceModal,
+            'villeNaissance' => $villeNaissanceModal,
+            'paysNaissance' => $paysNaissanceModal,
+            'dateDeces' => $dateDecesModal,
+            'villeDeces' => $villeDecesModal,
+            'paysDeces' => $paysDecesModal,
+            'sexe' => $sexeModal
         ]);
     }
 }

@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="col-6 mx-auto mb-3">
+	<div class="col-10 mx-auto mb-3">
 		{{ form_start(form) }}
 		<ul class="users" style="list-style-type: none">
 			{% for user in form.users %}
@@ -32,10 +32,22 @@
 					
 					</p>
 					<!-- il faut faire un form_row pour chaque propriété de l'entité, parce que si on fait un simple form(user), Twig crée une nouvelle balise <form> au sein de la précédente, ce qui fait qu'il n'envoie que le premier des trois formulaires -->
-					<li>{{ form_row(user.nom) }}</li>
-					<li>{{ form_row(user.prenom) }}</li>
-					<li>{{ form_row(user.date) }}</li>
-					<li>{{ form_row(user.lieu) }}</li>
+
+						<li>{{ form_row(user.nom) }}</li>
+						<li>{{ form_row(user.prenom) }}</li>
+						
+
+						<li>{{ form_row(user.dateNaissance) }}</li>
+						<li>{{ form_row(user.villeNaissance) }}</li>
+						<li>{{ form_row(user.paysNaissance) }}</li>
+				
+						<li>{{ form_row(user.dateDeces) }}</li>
+						<li>{{ form_row(user.villeDeces) }}</li>
+						<li>{{ form_row(user.paysDeces) }}</li>
+
+						{% if user.vars.name != 'pere' and  user.vars.name != 'mere' %}
+							<li>{{ form_row(user.sexe) }}</li>
+						{% endif %}
 
 
 						{# PersonData définit l'existance de Personne en BDD en fonction de son champ ID  #}
@@ -47,9 +59,7 @@
 						{% endif %}
 
 
-					{% if user.vars.name != 'pere' and  user.vars.name != 'mere' %}
-						<li>{{ form_row(user.sexe) }}</li>
-					{% endif %}
+					
 
 					{% if user.vars.name == 'mere' %}
 						<!-- Si dans la table Parents Mere == NULL -->
