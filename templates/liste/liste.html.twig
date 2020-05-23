@@ -40,10 +40,14 @@
                     <a href="{{ path("dateCroissante") }}">↑</a>
                     <a href="{{ path("dateDecroissante") }}">↓</a>
                 </th>
-                <th>Lieu de naissance
+                <th>Ville de naissance
                     <a href="{{ path("lieuAz") }}">↑</a>
                     <a href="{{ path("lieuZa") }}">↓</a>
                 </th>
+                <th>Pays de naissance</th>
+                <th>Date de décès</th>
+                <th>Lieu de décès</th>
+                <th>Pays de décès</th>
             </tr>
         </thead>
 
@@ -51,9 +55,13 @@
             {% for user in users %}
                 <tr>
                     <td><a href="{{ path('arbre', {id: user.id}) }}?position=parent">{{user.nom|capitalize}}</a></td>
-                    <td>{{user.prenom|capitalize}} </td>
-                    <td>{{user.date|date("d/m/Y")}}</td>
-                    <td>{{user.lieu|capitalize}} </td>
+                    <td>{{user.prenom|capitalize}}</td>
+                    <td>{{user.dateNaissance|date("d/m/Y")}}</td>
+                    <td>{{user.villeNaissance|capitalize}}</td>
+                    <td>{{user.paysNaissance|capitalize}}</td>
+                    <td>{{user.dateDeces|date("d/m/Y")}}</td>
+                    <td>{{user.villeDeces|capitalize}}</td>
+                    <td>{{user.paysDeces|capitalize}}</td>
                 </tr>
             {% endfor %}
         </tbody>

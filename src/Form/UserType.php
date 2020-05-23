@@ -21,13 +21,33 @@ class UserType extends AbstractType
             ->add('prenom', TextType::class, [
                 'required' => false
             ])
-            ->add('date', DateType::class, [
+            ->add('dateNaissance', DateType::class, [
                 'required' => false,
                 'years' => range(2020, 1901),
-                'input' => 'datetime'
+                'input' => 'datetime',
+                'label' => "Date de naissance"
             ])
-            ->add('lieu', TextType::class, [
-                'required' => false
+            ->add('villeNaissance', TextType::class, [
+                'required' => false,
+                'label' => "Ville de naissance"
+            ])
+            ->add('paysNaissance', TextType::class, [
+                'required' => false,
+                'label' => "Pays de naissance"
+            ])
+            ->add('dateDeces', DateType::class, [
+                'required' => false,
+                'years' => range(2020, 1901),
+                'input' => 'datetime',
+                'label' => "Date de décès"
+            ])
+            ->add('villeDeces', TextType::class, [
+                'required' => false,
+                'label' => "Ville de décès"
+            ])
+            ->add('paysDeces', TextType::class, [
+                'required' => false,
+                'label' => "Pays de décès"
             ])
             
             ;

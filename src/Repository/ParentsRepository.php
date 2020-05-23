@@ -25,7 +25,7 @@ class ParentsRepository extends ServiceEntityRepository
             ->where('p.pere = :val')
             ->setParameter(':val', $pere)
             ->leftJoin('p.user', 'u')
-            ->orderBy('u.date', 'ASC')
+            ->orderBy('u.dateNaissance', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -37,7 +37,7 @@ class ParentsRepository extends ServiceEntityRepository
             ->where('p.mere = :val')
             ->setParameter(':val', $mere)
             ->leftJoin('p.user', 'u')
-            ->orderBy('u.date', 'ASC')
+            ->orderBy('u.dateNaissance', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -51,7 +51,7 @@ class ParentsRepository extends ServiceEntityRepository
             ->andWhere('p.mere = :mere')
             ->setParameter(':mere', $userMere)
             ->leftJoin('p.user', 'u')
-            ->orderBy('u.date', 'ASC')
+            ->orderBy('u.dateNaissance', 'ASC')
             ->getQuery()
             ->getResult()
         ;

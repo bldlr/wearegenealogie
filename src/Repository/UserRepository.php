@@ -28,7 +28,7 @@ class UserRepository extends ServiceEntityRepository
 
         $builder = $this->createQueryBuilder('u');
         return $builder
-            ->where('u.nom LIKE :value or u.prenom LIKE :value or u.date LIKE :value or u.lieu LIKE :value')
+            ->where('u.nom LIKE :value or u.prenom LIKE :value or u.dateNaissance LIKE :value or u.villeNaissance LIKE :value')
             ->setParameter(':value', $value)
             ->getQuery()->getResult();
     }
@@ -83,7 +83,7 @@ class UserRepository extends ServiceEntityRepository
 
         return $builder
             ->select('u')
-            ->orderBy('u.date', 'ASC')
+            ->orderBy('u.dateNaissance', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -94,7 +94,7 @@ class UserRepository extends ServiceEntityRepository
 
         return $builder
             ->select('u')
-            ->orderBy('u.date', 'DESC')
+            ->orderBy('u.dateNaissance', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -105,7 +105,7 @@ class UserRepository extends ServiceEntityRepository
 
         return $builder
             ->select('u')
-            ->orderBy('u.lieu', 'ASC')
+            ->orderBy('u.villeNaissance', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -116,7 +116,7 @@ class UserRepository extends ServiceEntityRepository
 
         return $builder
             ->select('u')
-            ->orderBy('u.lieu', 'DESC')
+            ->orderBy('u.villeNaissance', 'DESC')
             ->getQuery()
             ->getResult();
     }
