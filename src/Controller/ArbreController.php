@@ -120,8 +120,21 @@ class ArbreController extends AbstractController
         $villeDecesModal = ($user->getVilleDeces()) ? ucfirst(($user->getVilleDeces())) : "Non renseignée";
         $paysDecesModal = ($user->getPaysDeces()) ? strtoupper(($user->getPaysDeces())) : "Non renseigné";
 
-        $sexeModal = ($user->getSexe() == "m") ? "Homme" : "Femme";
+        
 
+        switch($user->getSexe()) {
+            case "m" : 
+                $sexeModal = "Homme";
+                break;
+            case "f" : 
+                $sexeModal = "Femme";
+                break;
+            default: 
+            case null : 
+                $sexeModal = "indéfini";
+                break;
+
+        }
       
         return new JsonResponse([
             'nom' => ucfirst($user->getPrenom()) . " " . ucfirst($user->getNom()),
