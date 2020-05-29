@@ -112,6 +112,8 @@ class ArbreController extends AbstractController
      */
     public function user(UserRepository $repoUser, $id) {
         $user = $repoUser->find($id);
+        $nomModal = $user->getPrenom() ? ucfirst($user->getPrenom()) : "<span class='small font-italic'>Non renseigné</span>";
+        $prenomModal = $user->getNom() ? ucfirst($user->getNom()) : "<span class='small font-italic'>Non renseigné</span>";
         $dateNaissanceModal = ($user->getDateNaissance()) ? date_format($user->getDateNaissance(), 'd F Y') : "Non renseignée";
         $villeNaissanceModal = ($user->getVilleNaissance()) ? ucfirst(($user->getVilleNaissance())) : "Non renseignée";
         $paysNaissanceModal = ($user->getPaysNaissance()) ? strtoupper(($user->getPaysNaissance())) : "Non renseigné";
@@ -137,7 +139,8 @@ class ArbreController extends AbstractController
         }
       
         return new JsonResponse([
-            'nom' => ucfirst($user->getPrenom()) . " " . ucfirst($user->getNom()),
+            'nom' => $nomModal,
+            'prenom' => $prenomModal,
             'dateNaissance' => $dateNaissanceModal,
             'villeNaissance' => $villeNaissanceModal,
             'paysNaissance' => $paysNaissanceModal,
