@@ -23,7 +23,7 @@
 					<div class='cards-genealogie'>
 
 						{% if parent is null %}
-							<a href="">Parent inconnu</a>
+							<a href="">Parent<br>inconnu</a>
 						{% else %}
 							<a href="{{ path('arbre', {id: parent.id, position: 'enfant'}) }}">
 								{{parent.prenom|capitalize}}<br>
