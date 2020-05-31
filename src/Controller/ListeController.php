@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ListeController extends AbstractController
 {
     /**
-     * @Route("/", name="listeMembres")
+     * @Route("/liste_membres", name="listeMembres")
      */
     public function listeMembres(UserRepository $repoUser)
     {
