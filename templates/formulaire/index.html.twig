@@ -34,8 +34,8 @@
 					<!-- il faut faire un form_row pour chaque propriété de l'entité, parce que si on fait un simple form(user), Twig crée une nouvelle balise <form> au sein de la précédente, ce qui fait qu'il n'envoie que le premier des trois formulaires -->
 
 						<div class="row">
-						<li class="col">{{ form_row(user.nom) }}</li>
-						<li class="col">{{ form_row(user.prenom) }}</li>
+						<li class="col-md-4">{{ form_row(user.nom) }}</li>
+						<li class="col-md-4">{{ form_row(user.prenom) }}</li>
 						{% if user.vars.name != 'pere' and  user.vars.name != 'mere' %}
 							<li class="col">{{ form_row(user.sexe) }}</li>
 						{% endif %}
