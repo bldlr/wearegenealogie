@@ -54,8 +54,22 @@
         <tbody>
             {% for user in users %}
                 <tr>
-                    <td><a href="{{ path('arbre', {id: user.id}) }}?position=parent">{{user.nom|capitalize}}</a></td>
-                    <td>{{user.prenom|capitalize}}</td>
+                    <td>
+                        <a href="{{ path('arbre', {id: user.id}) }}?position=parent">
+                        {% if user.nom == false %}
+                            <span class="small font-italic">Non renseigné</span>
+                        {% else %}
+                            {{ user.nom|capitalize }}
+                        {% endif %}
+                        </a>
+                    </td>
+                    <td>
+                    {% if user.prenom == false %}
+                        <span class="small font-italic">Non renseigné</span>
+                    {% else %}
+                        {{ user.prenom|capitalize }}
+                    {% endif %}
+                    </td>
                     <td>{{user.dateNaissance|date("d/m/Y")}}</td>
                     <td>{{user.villeNaissance|capitalize}}</td>
                     <td>{{user.paysNaissance|capitalize}}</td>
