@@ -47,14 +47,14 @@ a {
 }
 
 .cards-parent-trait {
-  background-color: blue;
+  background-color: black;
   width: 1px;
   height: 30px;
   margin: 0 auto;
 }
 
 .cards-enfant-trait {
-  background-color: red;
+  background-color: black;
   width: 1px;
   height: 30px;
   margin: 0 auto;

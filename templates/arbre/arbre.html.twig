@@ -20,14 +20,23 @@
 			{% for parent in parents %}
 
 				<div>
-					<div class='cards-genealogie'>
+					<div class='cards-genealogie ' 
+					{% if not parent.sexe is defined   %}
+					style="border: 1px solid black"
+					{% elseif parent.sexe == "f" %}
+					style="border: 1px solid #FFB6C1"
+					{% elseif parent.sexe == "m" %}
+					style="border: 1px solid #6495ED"
+					{% endif %}
+
+					>
 
 						{% if parent is null %}
-							<a href="">Parent inconnu</a>
+							<a href="">Parent<br>inconnu</a>
 						{% else %}
 							<a href="{{ path('arbre', {id: parent.id, position: 'enfant'}) }}">
 								{{parent.prenom|capitalize}}<br>
-								{{parent.nom|capitalize}}
+								{{parent.nom|upper}}
 							</a>
 							
 							<span type="button" class="badge badge-info d-block" data-toggle="modal" data-target="#exampleModal"  data-user="{{ parent.id }}">💬</span>
@@ -57,13 +66,21 @@
 				{% for enfant in enfants %}
 					<div>
 						<div class='cards-enfant-trait'></div>
-						<div class='cards-genealogie'>
+						<div class='cards-genealogie'
+						{% if not enfant.sexe is defined   %}
+						style="border: 1px solid black"
+						{% elseif enfant.sexe == "f" %}
+						style="border: 1px solid #FFB6C1"
+						{% elseif enfant.sexe == "m" %}
+						style="border: 1px solid #6495ED"
+						{% endif %}
+						>
 
 							{% if enfant is null and position == 'enfant' %}
 								{# on rentre dans cette condition si on doit générer un arbre avec deux parents inconnus. On a décidé que pour l'instant il n'y a pas de fratrie possible s'il n'y a pas de parents en BDD #}
 								<a href="{{ path('arbre', {id: user.id, position: 'parent'}) }}">
 									{{user.prenom|capitalize}}<br>
-									{{user.nom|capitalize}}
+									{{user.nom|upper}}
 								</a>
 								<span type="button" data-toggle="modal" data-target="#exampleModal" class="badge badge-info d-block" data-user="{{ user.id }}">💬</span>
 								<a href="{{ path('usernode_edit', {id: user.id}) }}"><img style="width:25px; top:20px;" class="badge badge-light d-block" src="{{asset('images/settings.png')}}"></a>
@@ -71,7 +88,7 @@
 								{# affichage de base #}
 								<a href="{{ path('arbre', {id: enfant.id, position: 'parent'}) }}">
 									{{enfant.prenom|capitalize}}<br>
-									{{enfant.nom|capitalize}}
+									{{enfant.nom|upper}}
 								</a>
 								<span type="button" data-toggle="modal" data-target="#exampleModal" class="badge badge-info d-block" data-user="{{ enfant.id }}">💬</span>
 								<a href="{{ path('usernode_edit', {id: enfant.id}) }}"><img style="width:25px; top:20px;" class="badge badge-light d-block" src="{{asset('images/settings.png')}}"></a>

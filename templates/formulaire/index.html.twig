@@ -33,21 +33,26 @@
 					</p>
 					<!-- il faut faire un form_row pour chaque propriété de l'entité, parce que si on fait un simple form(user), Twig crée une nouvelle balise <form> au sein de la précédente, ce qui fait qu'il n'envoie que le premier des trois formulaires -->
 
-						<li>{{ form_row(user.nom) }}</li>
-						<li>{{ form_row(user.prenom) }}</li>
-						
-
-						<li>{{ form_row(user.dateNaissance) }}</li>
-						<li>{{ form_row(user.villeNaissance) }}</li>
-						<li>{{ form_row(user.paysNaissance) }}</li>
-				
-						<li>{{ form_row(user.dateDeces) }}</li>
-						<li>{{ form_row(user.villeDeces) }}</li>
-						<li>{{ form_row(user.paysDeces) }}</li>
-
+						<div class="row">
+						<li class="col-md-4">{{ form_row(user.nom) }}</li>
+						<li class="col-md-4">{{ form_row(user.prenom) }}</li>
 						{% if user.vars.name != 'pere' and  user.vars.name != 'mere' %}
-							<li>{{ form_row(user.sexe) }}</li>
+							<li class="col">{{ form_row(user.sexe) }}</li>
 						{% endif %}
+						</div>
+
+						<div class="row">
+						<li class="col">{{ form_row(user.dateNaissance) }}</li>
+						<li class="col">{{ form_row(user.villeNaissance) }}</li>
+						<li class="col">{{ form_row(user.paysNaissance) }}</li>
+						</div>
+
+						<div class="row">
+						<li class="col">{{ form_row(user.dateDeces) }}</li>
+						<li class="col">{{ form_row(user.villeDeces) }}</li>
+						<li class="col">{{ form_row(user.paysDeces) }}</li>
+						</div>
+						
 
 
 						{# PersonData définit l'existance de Personne en BDD en fonction de son champ ID  #}
