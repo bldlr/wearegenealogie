@@ -244,10 +244,10 @@ class DateFr
 
                             
                         }
-
+                        return $leMois;
             }
         
-            return $leMois;
+            
 
     }
 
@@ -317,10 +317,10 @@ class DateFr
 
                             
                         }
-
+                        return $leMois;
             }
         
-            return $leMois;
+            
 
     }
 
