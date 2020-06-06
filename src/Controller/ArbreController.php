@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Repository\ParentsRepository;
+use App\Service\DateFr;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -110,15 +111,20 @@ class ArbreController extends AbstractController
     /**
      * @Route("/user/{id}", name="user")
      */
-    public function user(UserRepository $repoUser, $id) {
+    public function user(UserRepository $repoUser, $id, DateFr $dateFr ) {
         $user = $repoUser->find($id);
         $nomModal = $user->getPrenom() ? ucfirst($user->getPrenom()) : "<span class='small font-italic'>Non renseigné</span>";
         $prenomModal = $user->getNom() ? ucfirst($user->getNom()) : "<span class='small font-italic'>Non renseigné</span>";
-        $dateNaissanceModal = ($user->getDateNaissance()) ? date_format($user->getDateNaissance(), 'd F Y') : "Non renseignée";
+
+        $moisNaissanceModal = $dateFr->moisNaissanceFrModal($user);
+        $dateNaissanceModal = ($user->getDateNaissance()) ? date_format($user->getDateNaissance(), 'd ') . $moisNaissanceModal . date_format($user->getDateNaissance(), ' Y') : "Non renseignée";
+
         $villeNaissanceModal = ($user->getVilleNaissance()) ? ucfirst(($user->getVilleNaissance())) : "Non renseignée";
         $paysNaissanceModal = ($user->getPaysNaissance()) ? strtoupper(($user->getPaysNaissance())) : "Non renseigné";
 
-        $dateDecesModal = ($user->getDateDeces()) ? date_format($user->getDateDeces(), 'd F Y') : "Non renseignée";
+        $moisDecesModal = $dateFr->moisDecesFrModal($user);
+        $dateDecesModal = ($user->getDateDeces()) ? date_format($user->getDateDeces(), 'd ') . $moisDecesModal . date_format($user->getDateDeces(), ' Y') : "Non renseignée";
+
         $villeDecesModal = ($user->getVilleDeces()) ? ucfirst(($user->getVilleDeces())) : "Non renseignée";
         $paysDecesModal = ($user->getPaysDeces()) ? strtoupper(($user->getPaysDeces())) : "Non renseigné";
 
