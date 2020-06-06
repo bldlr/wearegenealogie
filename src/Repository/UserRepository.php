@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Data\SearchData;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,105 +22,134 @@ class UserRepository extends ServiceEntityRepository
 
 // ----------------------------- FiLTRES DE LA PAGE LISTE ------------------------------------------------
 
-    public function findMoteurDeRecherche($value)
-    {
+    /**
+ * Récupère les Users en lien avec la recherche
+ * @return User[]
+ */
+public function findSearch(SearchData $search): array
+{
 
-        $value = '%' . $value . '%';
+    $query = $this
+        ->createQueryBuilder('u');
 
-        $builder = $this->createQueryBuilder('u');
-        return $builder
-            ->where('u.nom LIKE :value or u.prenom LIKE :value or u.dateNaissance LIKE :value or u.villeNaissance LIKE :value')
-            ->setParameter(':value', $value)
-            ->getQuery()->getResult();
-    }
+        if(!empty($search->q))
+        {
+            $query = $query
+            ->andWhere('u.nom LIKE :q')
+            ->orWhere('u.prenom LIKE :q')
+            ->orWhere('u.sexe LIKE :q')
+            ->orWhere('u.dateNaissance LIKE :q')
+            ->orWhere('u.villeNaissance LIKE :q')
+            ->orWhere('u.paysNaissance LIKE :q')
+            ->orWhere('u.dateDeces LIKE :q')
+            ->orWhere('u.villeDeces LIKE :q')
+            ->orWhere('u.paysDeces LIKE :q')
+            ->setParameter('q', "%{$search->q}%");
+        }
 
-    public function findNomAz()
-    {
-        $builder = $this->createQueryBuilder('u');
 
-        return $builder
-            ->select('u')
-            ->orderBy('u.nom', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
 
-    public function findNomZa()
-    {
-        $builder = $this->createQueryBuilder('u');
+        if(!empty($search->sexe))
+        {
+            $query = $query
+            ->andWhere('u.sexe IN (:sexe)')
+            ->setParameter('sexe', $search->sexe);
+        }
 
-        return $builder
-            ->select('u')
-            ->orderBy('u.nom', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
+        if(!empty($ordre = $search->ordre))
+        {
+            switch($ordre)
+            {
+                case 1 : 
+                    $query = $query
+                    ->orderBy("u.nom", "ASC");
+                break;
 
-    public function findPrenomAz()
-    {
-        $builder = $this->createQueryBuilder('u');
+                case 2 : 
+                    $query = $query
+                    ->orderBy("u.nom", "DESC");
+                break;
 
-        return $builder
-            ->select('u')
-            ->orderBy('u.prenom', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
+                case 3 : 
+                    $query = $query
+                    ->orderBy("u.prenom", "ASC");
+                break;
 
-    public function findPrenomZa()
-    {
-        $builder = $this->createQueryBuilder('u');
+                case 4 : 
+                    $query = $query
+                    ->orderBy("u.prenom", "DESC");
+                break;
 
-        return $builder
-            ->select('u')
-            ->orderBy('u.prenom', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
+                case 5 : 
+                    $query = $query
+                    ->orderBy("u.dateNaissance", "ASC");
+                break;
 
-    public function findDateCroissante()
-    {
-        $builder = $this->createQueryBuilder('u');
+                case 6 : 
+                    $query = $query
+                    ->orderBy("u.dateNaissance", "DESC");
+                break;
 
-        return $builder
-            ->select('u')
-            ->orderBy('u.dateNaissance', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
+                case 7 : 
+                    $query = $query
+                    ->orderBy("u.villeNaissance", "ASC");
+                break;
 
-    public function findDateDecroissante()
-    {
-        $builder = $this->createQueryBuilder('u');
+                case 8 : 
+                    $query = $query
+                    ->orderBy("u.villeNaissance", "DESC");
+                break;
 
-        return $builder
-            ->select('u')
-            ->orderBy('u.dateNaissance', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
+                case 9 : 
+                    $query = $query
+                    ->orderBy("u.paysNaissance", "ASC");
+                break;
 
-    public function findLieuAz()
-    {
-        $builder = $this->createQueryBuilder('u');
+                case 10 : 
+                    $query = $query
+                    ->orderBy("u.paysNaissance", "DESC");
+                break;
 
-        return $builder
-            ->select('u')
-            ->orderBy('u.villeNaissance', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
 
-    public function findLieuZa()
-    {
-        $builder = $this->createQueryBuilder('u');
+                case 11 : 
+                    $query = $query
+                    ->orderBy("u.dateDeces", "ASC");
+                break;
 
-        return $builder
-            ->select('u')
-            ->orderBy('u.villeNaissance', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
+                case 12 : 
+                    $query = $query
+                    ->orderBy("u.dateDeces", "DESC");
+                break;
+
+                case 13 : 
+                    $query = $query
+                    ->orderBy("u.villeDeces", "ASC");
+                break;
+
+                case 14 : 
+                    $query = $query
+                    ->orderBy("u.villeDeces", "DESC");
+                break;
+
+                case 15 : 
+                    $query = $query
+                    ->orderBy("u.paysDeces", "ASC");
+                break;
+
+                case 16 : 
+                    $query = $query
+                    ->orderBy("u.paysDeces", "DESC");
+                break;
+
+                default;
+            }
+            
+        }
+
+       
+
+    return $query->getQuery()->getResult();
+}
 
     // /**
     //  * @return User[] Returns an array of User objects
