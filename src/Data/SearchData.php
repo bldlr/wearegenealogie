@@ -17,7 +17,13 @@ class SearchData
     /**
      * @var string
      */
-      public $ordre;
+      public $classement;
+
+
+   //  /**
+   //   * @var string
+   //   */
+   //    public $nom;
 
 
     /**

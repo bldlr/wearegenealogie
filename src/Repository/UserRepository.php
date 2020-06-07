@@ -56,9 +56,11 @@ public function findSearch(SearchData $search): array
             ->setParameter('sexe', $search->sexe);
         }
 
-        if(!empty($ordre = $search->ordre))
+
+
+        if(!empty($classement = $search->classement))
         {
-            switch($ordre)
+            switch($classement)
             {
                 case 1 : 
                     $query = $query
@@ -146,6 +148,13 @@ public function findSearch(SearchData $search): array
             
         }
 
+
+        // if(!empty($search->nom))
+        // {
+        //     $query = $query
+        //     ->andWhere('u.nom = :name')
+        //     ->setParameter('name', $search->nom);
+        // }
        
 
     return $query->getQuery()->getResult();

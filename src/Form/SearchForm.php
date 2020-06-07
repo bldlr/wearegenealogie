@@ -3,11 +3,13 @@
 namespace App\Form;
 
 use App\Data\SearchData;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class SearchForm extends AbstractType 
 {
@@ -24,7 +26,8 @@ class SearchForm extends AbstractType
                         ]
                     ])
 
-                    ->add('ordre', ChoiceType::class, [
+                    ->add('classement', ChoiceType::class, [
+                        'placeholder' => 'Choisir par classement',
                         'required' => false,
                         'label' => false,
                         'choices' => [
@@ -59,6 +62,16 @@ class SearchForm extends AbstractType
                         ]
                     ])
 
+                    // ->add('nom', EntityType::class, [
+                    //     'class' => User::class,
+                    //     'label' => false,
+                    //     'required' => false,
+                    //     'placeholder' => 'Choisir par nom',
+                    //     'choice_label' => 'nom',
+                    //     'choice_value' => 'nom'
+
+                        
+                    // ])
 
                     
                 ;

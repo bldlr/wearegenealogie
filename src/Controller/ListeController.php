@@ -22,9 +22,12 @@ class ListeController extends AbstractController
         $form->handleRequest($request);
 
         $users = $repoUser->findSearch($data);
+
+        $number = count($repoUser->findSearch($data));
         return $this->render('liste/liste.html.twig',[
             'users' => $users,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'number' => $number
         ]
         );
     }
