@@ -83,6 +83,10 @@ class DateFr
 
                 $mois[$k] =  $leMois;
             }
+            else
+            {
+                return null;
+            }
         }
 
         return $mois;
@@ -164,6 +168,11 @@ class DateFr
 
                 $mois[$k] =  $leMois;
             }
+            else
+            {
+                return null;
+            }
+
         }
 
         return $mois;
