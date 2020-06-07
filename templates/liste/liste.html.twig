@@ -6,14 +6,16 @@
 {% block body %}
 
 <div class="container-fluid"> 
-
-        <div class="m-4">
-            <form method="GET" class="col-12 justify-content-center mx-auto input-group " action="{{ path("moteurDeRecherche") }}">
-                <input class="form-control col-4" type="search" name="champs" placeholder="Recherche" aria-label="Search" >
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Rechercher</button>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-1 text-center p-2 ">
+                    <div class="small-box bg-info ">
+                        <h3 class="text-light">{{number}}</h3>
+                    </div>
                 </div>
-            </form>
+            </div>
+
+        {# <div class="m-4">
+
             <div class="row justify-content-center">
                 {% for message in app.flashes('danger') %}
                     <div class="alert alert-danger col-2 text-center">
@@ -21,34 +23,24 @@
                     </div>
                 {% endfor %}
             </div>
-        </div>
+        </div> #}
+
+    
+    {% include 'liste/_filter.html.twig' with {form: form} only %}
 
 
     <table class="table table-hover text-center">
 
         <thead>
             <tr>
-                <th class="pl-0 pr-0">Nom
-                    <a href="{{ path("nomAz") }}">↑</a>
-                    <a href="{{ path("nomZa") }}">↓</a>
-                </th>
-                <th class="pl-0 pr-0">Prénom
-                    <a href="{{ path("prenomAz") }}">↑</a>
-                    <a href="{{ path("prenomZa") }}">↓</a>
-                </th>
-                <th class="pl-0 pr-0">Date de naissance
-                    <a href="{{ path("dateCroissante") }}">↑</a>
-                    <a href="{{ path("dateDecroissante") }}">↓</a>
-                </th>
-                <th>Ville de naissance
-                    <a href="{{ path("lieuAz") }}">↑</a>
-                    <a href="{{ path("lieuZa") }}">↓</a>
-                </th>
-                <th class="pl-0 pr-0">Pays de naissance</th>
-                <th class="pl-0 pr-0">Date de décès</th>
-                <th class="pl-0 pr-0">Lieu de décès</th>
-                <th class="pl-0 pr-0">Pays de décès</th>
-                <th class="pl-0 pr-0">Modifier</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de naissance</th>
+                <th>Ville de naissance</th>
+                <th>Pays de naissance</th>
+                <th>Date de décès</th>
+                <th>Lieu de décès</th>
+                <th>Pays de décès</th>
             </tr>
         </thead>
 

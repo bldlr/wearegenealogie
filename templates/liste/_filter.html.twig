@@ -1,0 +1,34 @@
+{{ form_start(form) }}
+
+    
+
+
+<div class="row">
+
+
+    <div class="col">
+        {{ form_row(form.q) }}
+    </div>
+
+
+    <div class="col">
+        {{ form_row(form.classement) }}
+    </div>
+
+
+    <div class="col">
+        {{ form_row(form.sexe) }}
+    </div>
+
+    {# <div class="col">
+        {{ form_row(form.nom) }}
+    </div> #}
+
+
+</div>
+
+
+
+    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+
+{{ form_end(form)}}
