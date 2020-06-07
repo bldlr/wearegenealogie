@@ -5,7 +5,7 @@
 
 {% block body %}
 
-<div class="container"> 
+<div class="container-fluid"> 
 
         <div class="m-4">
             <form method="GET" class="col-12 justify-content-center mx-auto input-group " action="{{ path("moteurDeRecherche") }}">
@@ -28,15 +28,15 @@
 
         <thead>
             <tr>
-                <th>Nom
+                <th class="pl-0 pr-0">Nom
                     <a href="{{ path("nomAz") }}">↑</a>
                     <a href="{{ path("nomZa") }}">↓</a>
                 </th>
-                <th>Prénom
+                <th class="pl-0 pr-0">Prénom
                     <a href="{{ path("prenomAz") }}">↑</a>
                     <a href="{{ path("prenomZa") }}">↓</a>
                 </th>
-                <th>Date de naissance
+                <th class="pl-0 pr-0">Date de naissance
                     <a href="{{ path("dateCroissante") }}">↑</a>
                     <a href="{{ path("dateDecroissante") }}">↓</a>
                 </th>
@@ -44,38 +44,86 @@
                     <a href="{{ path("lieuAz") }}">↑</a>
                     <a href="{{ path("lieuZa") }}">↓</a>
                 </th>
-                <th>Pays de naissance</th>
-                <th>Date de décès</th>
-                <th>Lieu de décès</th>
-                <th>Pays de décès</th>
+                <th class="pl-0 pr-0">Pays de naissance</th>
+                <th class="pl-0 pr-0">Date de décès</th>
+                <th class="pl-0 pr-0">Lieu de décès</th>
+                <th class="pl-0 pr-0">Pays de décès</th>
+                <th class="pl-0 pr-0">Modifier</th>
             </tr>
         </thead>
 
         <tbody>
             {% for user in users %}
                 <tr>
-                    <td>
-                        <a href="{{ path('arbre', {id: user.id}) }}?position=parent">
+                    <td class="pl-0 pr-0">
+                        <a href="{{ path('arbre', {id: user.id}) }}?position=parent" 
+                        {% if not user.sexe is defined   %}
+						style="color:black"
+						{% elseif user.sexe == "f" %}
+						style="color:#FFB6C1"
+						{% elseif user.sexe == "m" %}
+						style="color:#6495ED"
+						{% endif %}
+                        >
                         {% if user.nom == false %}
                             <span class="small font-italic">Non renseigné</span>
                         {% else %}
-                            {{ user.nom|capitalize }}
+                            {{ user.nom|upper }}
                         {% endif %}
                         </a>
                     </td>
-                    <td>
+                    <td class="pl-0 pr-0">
                     {% if user.prenom == false %}
                         <span class="small font-italic">Non renseigné</span>
                     {% else %}
                         {{ user.prenom|capitalize }}
                     {% endif %}
                     </td>
-                    <td>{{user.dateNaissance|date("d/m/Y")}}</td>
-                    <td>{{user.villeNaissance|capitalize}}</td>
-                    <td>{{user.paysNaissance|capitalize}}</td>
-                    <td>{{user.dateDeces|date("d/m/Y")}}</td>
-                    <td>{{user.villeDeces|capitalize}}</td>
-                    <td>{{user.paysDeces|capitalize}}</td>
+
+                    <td class="pl-0 pr-0">
+                    {% if not user.dateNaissance is null %}
+
+                        {% if user.dateNaissance|date("d" ) == 1 %}
+                            1<sup>er</sup>
+                        {% else %}
+                            {{user.dateNaissance|date("d" )}} 
+                        {% endif %}
+                    
+
+                    {% for key, value in moisNaissance %}
+                        {% if user.id == key %}
+                        {{value}} 
+                        {% endif %}
+                    {% endfor %}
+
+                    {{user.dateNaissance|date("Y")}}
+
+                    {% endif %}
+                    </td>
+                    <td class="pl-0 pr-0">{{user.villeNaissance|capitalize}} </td>
+                    <td class="pl-0 pr-0">{{user.paysNaissance|upper}}</td>
+                    <td class="pl-0 pr-0">
+                    {% if not user.dateDeces is null %}
+
+                        {% if user.dateDeces|date("d" ) == 1 %}
+                            1<sup>er</sup>
+                        {% else %}
+                            {{user.dateDeces|date("d" )}} 
+                        {% endif %}
+
+                    {% for key, value in moisDeces %}
+                        {% if user.id == key %}
+                        {{value}} 
+                        {% endif %}
+                    {% endfor %}
+
+                    {{user.dateDeces|date("Y")}}
+
+                    {% endif %}
+                    </td>
+                    <td class="pl-0 pr-0">{{user.villeDeces|capitalize}}</td>
+                    <td class="pl-0 pr-0">{{user.paysDeces|capitalize}}</td>
+                    <td class="pl-0 pr-0"><a href="{{ path('usernode_edit', {id: user.id}) }}"><img style="width:25px; top:20px;" class="badge badge-light d-block" src="{{asset('images/settings.png')}}"></a></td>
                 </tr>
             {% endfor %}
         </tbody>
