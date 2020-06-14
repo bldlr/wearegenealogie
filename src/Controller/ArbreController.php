@@ -114,16 +114,17 @@ class ArbreController extends AbstractController
     public function user(UserRepository $repoUser, $id, DateFr $dateFr ) {
         $user = $repoUser->find($id);
         $nomModal = $user->getPrenom() ? ucfirst($user->getPrenom()) : "<span class='small font-italic'>Non renseigné</span>";
-        $prenomModal = $user->getNom() ? ucfirst($user->getNom()) : "<span class='small font-italic'>Non renseigné</span>";
+        $prenomModal = $user->getNom() ? strtoupper($user->getNom()) : "<span class='small font-italic'>Non renseigné</span>";
 
         $moisNaissanceModal = $dateFr->moisNaissanceFrModal($user);
-        $dateNaissanceModal = ($user->getDateNaissance()) ? date_format($user->getDateNaissance(), 'd ') . $moisNaissanceModal . date_format($user->getDateNaissance(), ' Y') : "Non renseignée";
+        $jourNaissanceModal = (date_format($user->getDateNaissance(), 'j ') == 1) ? 1 . "<sup>er</sup> " : date_format($user->getDateNaissance(), 'j ');
+        $dateNaissanceModal = ($user->getDateNaissance()) ? $jourNaissanceModal . $moisNaissanceModal . date_format($user->getDateNaissance(), ' Y') : "Non renseignée";
 
         $villeNaissanceModal = ($user->getVilleNaissance()) ? ucfirst(($user->getVilleNaissance())) : "Non renseignée";
         $paysNaissanceModal = ($user->getPaysNaissance()) ? strtoupper(($user->getPaysNaissance())) : "Non renseigné";
 
         $moisDecesModal = $dateFr->moisDecesFrModal($user);
-        $dateDecesModal = ($user->getDateDeces()) ? date_format($user->getDateDeces(), 'd ') . $moisDecesModal . date_format($user->getDateDeces(), ' Y') : "Non renseignée";
+        $dateDecesModal = ($user->getDateDeces()) ? date_format($user->getDateDeces(), 'j ') . $moisDecesModal . date_format($user->getDateDeces(), ' Y') : "Non renseignée";
 
         $villeDecesModal = ($user->getVilleDeces()) ? ucfirst(($user->getVilleDeces())) : "Non renseignée";
         $paysDecesModal = ($user->getPaysDeces()) ? strtoupper(($user->getPaysDeces())) : "Non renseigné";
@@ -133,13 +134,19 @@ class ArbreController extends AbstractController
         switch($user->getSexe()) {
             case "m" : 
                 $sexeModal = "Homme";
+                $ne = "Né";
+                $decede = "Décédé";
                 break;
             case "f" : 
                 $sexeModal = "Femme";
+                $ne = "Née";
+                $decede = "Décédée";
                 break;
             default: 
             case null : 
                 $sexeModal = "indéfini";
+                $ne = "Né";
+                $decede = "Décédé";
                 break;
 
         }
@@ -153,7 +160,9 @@ class ArbreController extends AbstractController
             'dateDeces' => $dateDecesModal,
             'villeDeces' => $villeDecesModal,
             'paysDeces' => $paysDecesModal,
-            'sexe' => $sexeModal
+            'sexe' => $sexeModal,
+            'ne' => $ne,
+            'decede' => $decede
         ]);
     }
 }
