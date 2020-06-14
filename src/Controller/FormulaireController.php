@@ -63,9 +63,9 @@ class FormulaireController extends AbstractController
             foreach ($form->get('users') as $userForm) {
                 // 1 form = 1 user, ici on le récupère
                 $user = $userForm->getData();
-               
+
                 // comme on boucle sur les form, on a accès à leurs clés dans l'arraycollection du UserNode, du coup on peut faire deux conditions qui disent : si le form ne s'appelle pas 'personne' et qu'on n'a pas coché Parent inconnu, alors ce User est persist et sera renseigné dans le Parents
-                dump($user);
+
                 if ( $userForm->getName() == 'personne'  || !$userForm->get('check')->getData() ) {
 
                     $userNode[$userForm->getName()] = $user;
@@ -84,7 +84,14 @@ class FormulaireController extends AbstractController
                         elseif($userForm->getName() == 'mere'){
                             $user->setSexe('f');
                         }
-                        
+
+                        $user->setNom(strtolower($user->getNom()));
+                        $user->setPrenom(strtolower($user->getPrenom()));
+                        $user->setVilleNaissance(strtolower($user->getVilleNaissance()));
+                        $user->setPaysNaissance(strtolower($user->getPaysNaissance()));
+                        $user->setVilleDeces(strtolower($user->getVilleDeces()));
+                        $user->setPaysDeces(strtolower($user->getPaysDeces()));
+
                         $entityManager->persist($user);
 
                     }else{
