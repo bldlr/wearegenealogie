@@ -65,10 +65,10 @@
                     <td class="pl-0 pr-0">
                     {% if not user.dateNaissance is null %}
 
-                        {% if user.dateNaissance|date("d" ) == 1 %}
+                        {% if user.dateNaissance|date("j" ) == 1 %}
                             1<sup>er</sup>
                         {% else %}
-                            {{user.dateNaissance|date("d" )}} 
+                            {{user.dateNaissance|date("j" )}}
                         {% endif %}
                     
 
@@ -87,10 +87,10 @@
                     <td class="pl-0 pr-0">
                     {% if not user.dateDeces is null %}
 
-                        {% if user.dateDeces|date("d" ) == 1 %}
+                        {% if user.dateDeces|date("j" ) == 1 %}
                             1<sup>er</sup>
                         {% else %}
-                            {{user.dateDeces|date("d" )}} 
+                            {{user.dateDeces|date("j" )}}
                         {% endif %}
 
                     {% for key, value in moisDeces %}

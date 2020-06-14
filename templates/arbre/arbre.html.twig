@@ -169,13 +169,14 @@
 				$.get($path, function (data, status) {
 					$("#exampleModal .modal-title").html(data.prenom + ' ' + data.nom);
 					$("#exampleModal .modal-body").html(
-						"<b>Date de naissance :</b> " + data.dateNaissance + 
-						"<br><b>Ville de naissance :</b> " + data.villeNaissance + 
-						"<br><b>Pays de naissance :</b> " + data.paysNaissance + 
-						"<br><br><b>Date de décès :</b> " + data.dateDeces + 
-						"<br><b>Ville de décès :</b> " + data.villeDeces + 
-						"<br><b>Pays de décès :</b> " + data.paysDeces + 
-						"<br><br><b>Sexe :</b> " + data.sexe
+						data.ne + " le <b>" + data.dateNaissance + "</b><br>" +
+						"à <b>"+ data.villeNaissance + " </b>(<b>" + data.paysNaissance + "</b>)" +
+						"<br><br>" +
+						data.decede + " le <b>" + data.dateDeces + "</b><br>" +
+						"à <b>"+ data.villeDeces + " </b>(<b>" + data.paysDeces + "</b>)" +
+
+
+						"<br><br>Sexe : <b>" + data.sexe + "</b>"
 						);
 				});
 
