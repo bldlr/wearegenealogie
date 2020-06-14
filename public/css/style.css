@@ -99,3 +99,11 @@ a {
   width: 100%;
   z-index: -10;
 }
+
+.row-uppercase input {
+  text-transform: uppercase;
+}
+
+.row-capitalize input {
+  text-transform: capitalize;
+}
