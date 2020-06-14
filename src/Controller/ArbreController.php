@@ -117,7 +117,16 @@ class ArbreController extends AbstractController
         $prenomModal = $user->getNom() ? strtoupper($user->getNom()) : "<span class='small font-italic'>Non renseigné</span>";
 
         $moisNaissanceModal = $dateFr->moisNaissanceFrModal($user);
-        $jourNaissanceModal = (date_format($user->getDateNaissance(), 'j ') == 1) ? 1 . "<sup>er</sup> " : date_format($user->getDateNaissance(), 'j ');
+
+        if ($user->getDateNaissance() == NULL) {
+            "Non renseignée";
+        } else {
+            if (date_format($user->getDateNaissance(), 'j ') == 1) {
+                $jourNaissanceModal = 1 . "<sup>er</sup> ";
+            } else {
+                $jourNaissanceModal = date_format($user->getDateNaissance(), 'j ');
+            }
+        }
         $dateNaissanceModal = ($user->getDateNaissance()) ? $jourNaissanceModal . $moisNaissanceModal . date_format($user->getDateNaissance(), ' Y') : "Non renseignée";
 
         $villeNaissanceModal = ($user->getVilleNaissance()) ? ucfirst(($user->getVilleNaissance())) : "Non renseignée";
