@@ -59,6 +59,11 @@ class User
     private $paysDeces;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $deces;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $sexe;
@@ -179,6 +184,18 @@ class User
     public function setSexe(?string $sexe): self
     {
         $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getDeces(): ?bool
+    {
+        return $this->deces;
+    }
+
+    public function setDeces(?bool $deces): self
+    {
+        $this->deces = $deces;
 
         return $this;
     }

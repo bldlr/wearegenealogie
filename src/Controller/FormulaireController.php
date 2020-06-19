@@ -85,12 +85,19 @@ class FormulaireController extends AbstractController
                             $user->setSexe('f');
                         }
 
-                        $user->setNom(strtolower($user->getNom()));
-                        $user->setPrenom(strtolower($user->getPrenom()));
-                        $user->setVilleNaissance(strtolower($user->getVilleNaissance()));
-                        $user->setPaysNaissance(strtolower($user->getPaysNaissance()));
-                        $user->setVilleDeces(strtolower($user->getVilleDeces()));
-                        $user->setPaysDeces(strtolower($user->getPaysDeces()));
+                        if(!$userForm->get('checkDeces')->getData()){
+                            $user->setDeces(1);
+                        }else{
+                            $user->setDeces(0);
+                        }
+
+
+                        $user->setNom(mb_convert_case($user->getNom(), MB_CASE_LOWER, "UTF-8"));
+                        $user->setPrenom(mb_convert_case($user->getPrenom(), MB_CASE_LOWER, "UTF-8"));
+                        $user->setVilleNaissance(mb_convert_case($user->getVilleNaissance(), MB_CASE_LOWER, "UTF-8"));
+                        $user->setPaysNaissance(mb_convert_case($user->getPaysNaissance(), MB_CASE_LOWER, "UTF-8"));
+                        $user->setVilleDeces(mb_convert_case($user->getVilleDeces(), MB_CASE_LOWER, "UTF-8"));
+                        $user->setPaysDeces(mb_convert_case($user->getPaysDeces(), MB_CASE_LOWER, "UTF-8"));
 
                         $entityManager->persist($user);
 

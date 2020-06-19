@@ -26,6 +26,15 @@ class UserNodeType extends AbstractType
             ]);
     }
 
+    private function injecterCheckDeces(Form $form)
+    {
+        $form->add('checkDeces', CheckboxType::class, [
+            'required' => false,
+            'mapped' => false,
+            'label' => 'Décès'
+        ]);
+    }
+
     private function injecterSexe(Form $form)
     {
         $form->add('sexe', ChoiceType::class, [
@@ -54,6 +63,7 @@ class UserNodeType extends AbstractType
             function (FormEvent $event) {
                 // on boucle sur chaque form et on injecte une checkbox lorsque le form ne s'appelle pas 'personne'
                 foreach ($event->getForm()->get('users') as $userForm) {
+                    $this->injecterCheckDeces($userForm);
                     if ($userForm->getName() == 'pere' || $userForm->getName() == 'mere') {
                         $this->injecterCheck($userForm);
                     }

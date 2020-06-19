@@ -23,7 +23,7 @@ class UserType extends AbstractType
             ])
             ->add('dateNaissance', DateType::class, [
                 'required' => false,
-                'years' => range(2020, 1901),
+                'years' => range(2020, 1700),
                 'input' => 'datetime',
                 'label' => "Date de naissance"
             ])
@@ -37,7 +37,7 @@ class UserType extends AbstractType
             ])
             ->add('dateDeces', DateType::class, [
                 'required' => false,
-                'years' => range(2020, 1901),
+                'years' => range(2020, 1700),
                 'input' => 'datetime',
                 'label' => "Date de décès"
             ])
