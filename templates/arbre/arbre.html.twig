@@ -170,14 +170,20 @@
 					$("#exampleModal .modal-title").html(data.prenom + ' ' + data.nom);
 					$("#exampleModal .modal-body").html(
 						data.ne + " le <b>" + data.dateNaissance + "</b><br>" +
-						"à <b>"+ data.villeNaissance + " </b>(<b>" + data.paysNaissance + "</b>)" +
-						"<br><br>" +
-						data.decede + " le <b>" + data.dateDeces + "</b><br>" +
-						"à <b>"+ data.villeDeces + " </b>(<b>" + data.paysDeces + "</b>)" +
-
-
-						"<br><br>Sexe : <b>" + data.sexe + "</b>"
+						"à <b>"+ data.villeNaissance + " </b>(<b>" + data.paysNaissance + "</b>)"
 						);
+
+					if (data.deces == 1){
+						$("#exampleModal .modal-body").append(
+								"<br><br>" + data.decede + " le <b>" + data.dateDeces + "</b><br>" +
+								"à <b>"+ data.villeDeces + " </b>(<b>" + data.paysDeces + "</b>)" +
+								"<br> à l\'âge de <b>" + data.ageDeces + "</b> ans"
+						);
+					}
+					$("#exampleModal .modal-body").append(
+							"<br><br>Sexe : <b>" + data.sexe + "</b>"
+					);
+
 				});
 
 			});

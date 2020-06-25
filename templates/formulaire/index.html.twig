@@ -1,162 +1,174 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Formulaire
+    Formulaire
 {% endblock %}
 
 {% block monTitre %}
-	Formulaire
+    Formulaire
 {% endblock %}
 
 {% block body %}
-	<div class="col-10 mx-auto mb-3">
-		{{ form_start(form) }}
-		<ul class="users" style="list-style-type: none">
-			{% for user in form.users %}
-				<div class="border border-primary my-3 p-2">
-					<h4>
-						{% if user.vars.name == 'personne' %}
-						Personne
-						{% elseif user.vars.name == 'pere' %}
-						Père
-						{% elseif user.vars.name == 'mere' %}
-						Mère
-						{% endif %}
-					</h4>
-					<p>
-						{% for message in app.flashes('error-' ~ user.vars.name) %}
-							<div class="alert alert-danger">
-								{{message}}
-							</div>
-						{% endfor %}
-					
-					</p>
-					<!-- il faut faire un form_row pour chaque propriété de l'entité, parce que si on fait un simple form(user), Twig crée une nouvelle balise <form> au sein de la précédente, ce qui fait qu'il n'envoie que le premier des trois formulaires -->
+    <div class="col-10 mx-auto mb-3">
+        {{ form_start(form) }}
+        <ul class="users" style="list-style-type: none">
+            {% for user in form.users %}
+                <div class="border border-primary my-3 p-2">
+                    <h4>
+                        {% if user.vars.name == 'personne' %}
+                            Personne
+                        {% elseif user.vars.name == 'pere' %}
+                            Père
+                        {% elseif user.vars.name == 'mere' %}
+                            Mère
+                        {% endif %}
+                    </h4>
+                    <p>
+                        {% for message in app.flashes('error-' ~ user.vars.name) %}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
 
-						<div class="row">
-						<li class="col-md-4 row-uppercase">{{ form_row(user.nom) }}</li>
-						<li class="col-md-4 row-capitalize">{{ form_row(user.prenom) }}</li>
-						{% if user.vars.name != 'pere' and  user.vars.name != 'mere' %}
-							<li class="col">{{ form_row(user.sexe) }}</li>
-						{% endif %}
-						</div>
+                    </p>
+                    <!-- il faut faire un form_row pour chaque propriété de l'entité, parce que si on fait un simple form(user), Twig crée une nouvelle balise <form> au sein de la précédente, ce qui fait qu'il n'envoie que le premier des trois formulaires -->
 
-						<div class="row">
-						<li class="col">{{ form_row(user.dateNaissance) }}</li>
-						<li class="col row-capitalize">{{ form_row(user.villeNaissance) }}</li>
-						<li class="col row-uppercase">{{ form_row(user.paysNaissance) }}</li>
-						</div>
+                    <div class="row">
+                        <li class="col-md-4 row-uppercase">{{ form_row(user.nom) }}</li>
+                        <li class="col-md-4 row-capitalize">{{ form_row(user.prenom) }}</li>
+                        {% if user.vars.name != 'pere' and  user.vars.name != 'mere' %}
+                            <li class="col">{{ form_row(user.sexe) }}</li>
+                        {% endif %}
+                    </div>
 
-						<div class="row">
-						<li class="col">{{ form_row(user.dateDeces) }}</li>
-						<li class="col row-capitalize">{{ form_row(user.villeDeces) }}</li>
-						<li class="col row-uppercase">{{ form_row(user.paysDeces) }}</li>
-						</div>
-						
+                    <div class="row">
+                        <li class="col">{{ form_row(user.dateNaissance) }}</li>
+                        <li class="col row-capitalize">{{ form_row(user.villeNaissance) }}</li>
+                        <li class="col row-uppercase">{{ form_row(user.paysNaissance) }}</li>
+                    </div>
+
+                    <div>
+                        <li>
+                            {% if not user.vars.data.deces is defined %}
+                                {{ form_row(user.checkDeces, { 'attr': {'checked': 'checked'} }) }}
+                            {% elseif user.vars.data.deces == 0 %}
+                                {{ form_row(user.checkDeces, { 'attr': {'checked': 'checked'} }) }}
+                            {% elseif user.vars.data.deces == 1 %}
+                                {{ form_row(user.checkDeces) }}
+                            {% endif %}
+
+                        </li>
+
+                        <div class="row">
+                            <li class="col">{{ form_row(user.dateDeces) }}</li>
+                            <li class="col row-capitalize">{{ form_row(user.villeDeces) }}</li>
+                            <li class="col row-uppercase">{{ form_row(user.paysDeces) }}</li>
+                        </div>
+                    </div>
 
 
-						{# PersonData définit l'existance de Personne en BDD en fonction de son champ ID  #}
-						{% if user.vars.name == 'personne'%}
-							{% set personData = false %}
-								{% if not user.vars.data.id is null %}
-									{% set personData = true %}
-								{% endif %}
-						{% endif %}
+                    {# PersonData définit l'existance de Personne en BDD en fonction de son champ ID  #}
+                    {% if user.vars.name == 'personne' %}
+                        {% set personData = false %}
+                        {% if not user.vars.data.id is null %}
+                            {% set personData = true %}
+                        {% endif %}
+                    {% endif %}
 
 
-					
 
-					{% if user.vars.name == 'mere' %}
-						<!-- Si dans la table Parents Mere == NULL -->
-						{% if user.vars.data is empty %}
-							<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
-						{% else %}
 
-							<!-- Mere existe soit par une nouvelle instance soit dans la table User -->
-							<!-- Le sexe se génère dans le controlleur lors de l'envoi en BDD -->
-							<!-- s'il n'y a pas de sexe alors rien en BDD -->
-							{% if user.vars.data.sexe is empty %}
-								<!-- Lorsqu'on est dans un forumaire, il existe 2 cas où il n'y a pas de mère en BDD  -->
-								<!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
-								<!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
-								{% if personData %}
-									<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
-								{% else %}
-									<li>{{ form_row(user.check) }}</li>
-								{% endif %}
-							{% else %}
-							<!-- s'il y a un sexe alors l'instance vient de la BDD -->
+                    {% if user.vars.name == 'mere' %}
+                        <!-- Si dans la table Parents Mere == NULL -->
+                        {% if user.vars.data is empty %}
+                            <li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+                        {% else %}
 
-								<li>{{ form_row(user.check) }}</li>
+                            <!-- Mere existe soit par une nouvelle instance soit dans la table User -->
+                            <!-- Le sexe se génère dans le controlleur lors de l'envoi en BDD -->
+                            <!-- s'il n'y a pas de sexe alors rien en BDD -->
+                            {% if user.vars.data.sexe is empty %}
+                                <!-- Lorsqu'on est dans un forumaire, il existe 2 cas où il n'y a pas de mère en BDD  -->
+                                <!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
+                                <!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
+                                {% if personData %}
+                                    <li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+                                {% else %}
+                                    <li>{{ form_row(user.check) }}</li>
+                                {% endif %}
+                            {% else %}
+                                <!-- s'il y a un sexe alors l'instance vient de la BDD -->
 
-								
-							{% endif %}
+                                <li>{{ form_row(user.check) }}</li>
 
-						{% endif %}
-						
 
-					{% elseif user.vars.name == 'pere' %}
-						<!-- Si dans la table Parents Pere == NULL -->
-						{% if user.vars.data is empty %}
-							<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
-						{% else %}
+                            {% endif %}
 
-							<!-- Pere existe soit par une nouvelle instance soit dans la table User -->
-							<!-- Le sexe se génère dans le controlleur lors de l'envoi en BDD -->
-							<!-- s'il n'y a pas de sexe alors rien en BDD -->
-							{% if user.vars.data.sexe is empty %}
-								<!-- Lorsqu'on est dans un forumaire, il existe 2 cas où il n'y a pas de mère en BDD  -->
-								<!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
-								<!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
-								{% if personData %}
-									<li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
-								{% else %}
-									<li>{{ form_row(user.check) }}</li>
-								{% endif %}
+                        {% endif %}
 
-							{% else %}
-								<!-- s'il y a un sexe alors l'instance vient de la BDD -->
-								<li>{{ form_row(user.check) }}</li>
-							{% endif %}
 
-						{% endif %}
-					{% endif %}
+                    {% elseif user.vars.name == 'pere' %}
+                        <!-- Si dans la table Parents Pere == NULL -->
+                        {% if user.vars.data is empty %}
+                            <li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+                        {% else %}
 
-					
-				</div>
-			{% endfor %}
-			{{ form_row(form.envoyer) }}
-		</ul>
-		{{ form_end(form) }}
-	</div>
+                            <!-- Pere existe soit par une nouvelle instance soit dans la table User -->
+                            <!-- Le sexe se génère dans le controlleur lors de l'envoi en BDD -->
+                            <!-- s'il n'y a pas de sexe alors rien en BDD -->
+                            {% if user.vars.data.sexe is empty %}
+                                <!-- Lorsqu'on est dans un forumaire, il existe 2 cas où il n'y a pas de mère en BDD  -->
+                                <!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
+                                <!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
+                                {% if personData %}
+                                    <li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+                                {% else %}
+                                    <li>{{ form_row(user.check) }}</li>
+                                {% endif %}
+
+                            {% else %}
+                                <!-- s'il y a un sexe alors l'instance vient de la BDD -->
+                                <li>{{ form_row(user.check) }}</li>
+                            {% endif %}
+
+                        {% endif %}
+                    {% endif %}
+
+
+                </div>
+            {% endfor %}
+            {{ form_row(form.envoyer) }}
+        </ul>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
-	<script>
-		$(document).ready(() => {
-			function setFormDisabled(target) {
-				$thisFormParent = target.parentNode.parentNode.parentNode.parentNode;
-				$($thisFormParent).css('position', 'relative');
-				$thisForm = target.parentNode.parentNode.parentNode;
-				$($thisForm).toggleClass('form-grise');
-				// TODO : faire en sorte qu'il soit appliqué dès le chargement de la page si la checkbox est déjà cochée
-				$isDisabled = $($thisFormParent).find('input:not([type=checkbox])').prop('disabled');
-				$isDisabled = !$isDisabled ? true : false;
-				$($thisFormParent).find('input:not([type=checkbox])').prop({
-					disabled: $isDisabled
-				});
-				$($thisFormParent).find('select').prop({
-					disabled: $isDisabled
-				});
-			}
+    <script>
+        $(document).ready(() => {
+            function setFormDisabled(target) {
+                $thisFormParent = target.parentNode.parentNode.parentNode.parentNode;
+                $($thisFormParent).css('position', 'relative');
+                $thisForm = target.parentNode.parentNode.parentNode;
+                $($thisForm).toggleClass('form-grise');
+                // TODO : faire en sorte qu'il soit appliqué dès le chargement de la page si la checkbox est déjà cochée
+                $isDisabled = $($thisFormParent).find('input:not([type=checkbox])').prop('disabled');
+                $isDisabled = !$isDisabled ? true : false;
+                $($thisFormParent).find('input:not([type=checkbox])').prop({
+                    disabled: $isDisabled
+                });
+                $($thisFormParent).find('select').prop({
+                    disabled: $isDisabled
+                });
+            }
 
-			$("input[type=checkbox]").change((event) => {
-				setFormDisabled(event.target);
-			});
+            $("input[type=checkbox]").change((event) => {
+                setFormDisabled(event.target);
+            });
 
-			$(document).find("input[type=checkbox]:checked").each((index, element) => {
-				setFormDisabled(element);
-			});
-		});
-	</script>
+            $(document).find("input[type=checkbox]:checked").each((index, element) => {
+                setFormDisabled(element);
+            });
+        });
+    </script>
 {% endblock %}

@@ -33,7 +33,7 @@
           <tr >
         <th class="text-center" colspan="2" scope="colgroup">Dénomination</th>
         <th class="text-center"  colspan="3" scope="colgroup">Naissance</th>
-        <th class="text-center" colspan="3" scope="colgroup">Décès</th>
+        <th class="text-center" colspan="4" scope="colgroup">Décès</th>
         <th class="text-center" colspan="2" scope="colgroup">Actions</th>
         </tr>
             <tr>
@@ -42,6 +42,7 @@
                 <th>Date</th>
                 <th>Ville</th>
                 <th>Pays</th>
+                <th>Décès</th>
                 <th>Date</th>
                 <th>Lieu</th>
                 <th>Pays</th>
@@ -55,7 +56,7 @@
                 <tr>
                     <td class="pl-0 pr-0">
                         <a href="{{ path('arbre', {id: user.id}) }}?position=parent" 
-                        {% if not user.sexe is defined   %}
+                        {% if user.sexe == null %}
 						style="color:black"
 						{% elseif user.sexe == "f" %}
 						style="color:#FFB6C1"
@@ -96,10 +97,34 @@
 
                     {{user.dateNaissance|date("Y")}}
 
+                    {% else %}
+                        <span class="small font-italic">Non renseigné</span>
                     {% endif %}
                     </td>
-                    <td class="pl-0 pr-0">{{user.villeNaissance|capitalize}} </td>
-                    <td class="pl-0 pr-0">{{user.paysNaissance|upper}}</td>
+                    <td class="pl-0 pr-0">
+                        {% if user.villeNaissance %}
+                            {{user.villeNaissance|capitalize}}
+                        {% else %}
+                            <span class="small font-italic">Non renseigné</span>
+                        {% endif %}
+                    </td>
+
+                    <td class="pl-0 pr-0">
+                        {% if user.paysNaissance %}
+                            {{user.paysNaissance|capitalize}}
+                        {% else %}
+                            <span class="small font-italic">Non renseigné</span>
+                        {% endif %}
+                    </td>
+
+                    <td class="pl-0 pr-0">
+                        {% if user.deces == 0 %}
+                            non
+                        {% else %}
+                            <span class="font-weight-bold">oui</span>
+                        {% endif %}
+                    </td>
+
                     <td class="pl-0 pr-0">
                     {% if not user.dateDeces is null %}
 
@@ -109,18 +134,42 @@
                             {{user.dateDeces|date("j" )}}
                         {% endif %}
 
-                    {% for key, value in moisDeces %}
-                        {% if user.id == key %}
-                        {{value}} 
-                        {% endif %}
-                    {% endfor %}
+                        {% for key, value in moisDeces %}
+                            {% if user.id == key %}
+                            {{value}}
+                            {% endif %}
+                        {% endfor %}
 
-                    {{user.dateDeces|date("Y")}}
+                        {{user.dateDeces|date("Y")}}
+
+                    {% else %}
+
+                        {% if user.deces == 1 %}
+                            <span class="small font-italic">Non renseigné</span>
+                        {% endif %}
 
                     {% endif %}
                     </td>
-                    <td class="pl-0 pr-0">{{user.villeDeces|capitalize}}</td>
-                    <td class="pl-0 pr-0">{{user.paysDeces|capitalize}}</td>
+
+                    <td class="pl-0 pr-0 row-capitalize">
+                        {% if not user.villeDeces is null %}
+                            {{user.villeDeces|capitalize}}
+                        {% else %}
+                            {% if user.deces == 1 %}
+                                <span class="small font-italic">Non renseigné</span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+
+                    <td class="pl-0 pr-0">
+                        {% if not user.paysDeces is null %}
+                            {{user.paysDeces|capitalize}}
+                        {% else %}
+                            {% if user.deces == 1 %}
+                                <span class="small font-italic">Non renseigné</span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
 
 
                     <td class="pl-0 pr-0"><a href="{{ path('usernode_edit', {id: user.id}) }}"><img  src="{{asset('images/update.png')}}"></a></td>

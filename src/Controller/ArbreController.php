@@ -138,6 +138,18 @@ class ArbreController extends AbstractController
         $villeDecesModal = ($user->getVilleDeces()) ? ucfirst(($user->getVilleDeces())) : "Non renseignée";
         $paysDecesModal = ($user->getPaysDeces()) ? strtoupper(($user->getPaysDeces())) : "Non renseigné";
 
+        if(($user->getDateNaissance()) && ($user->getDateDeces()))
+        {
+            if ($user->getDateDeces()->format('m') < $user->getDateNaissance()->format('m')){
+                $ageDeces = ($user->getDateDeces()->format('Y') - $user->getDateNaissance()->format('Y')) - 1 ;
+            }else{
+                $ageDeces = $user->getDateDeces()->format('Y') - $user->getDateNaissance()->format('Y');
+            }
+
+        }else{
+            $ageDeces = "non renseigné";
+        }
+
         
 
         switch($user->getSexe()) {
@@ -171,7 +183,9 @@ class ArbreController extends AbstractController
             'paysDeces' => $paysDecesModal,
             'sexe' => $sexeModal,
             'ne' => $ne,
-            'decede' => $decede
+            'decede' => $decede,
+            'ageDeces' => $ageDeces,
+            'deces' => $user->getDeces()
         ]);
     }
 }
