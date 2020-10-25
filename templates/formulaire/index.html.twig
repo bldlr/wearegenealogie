@@ -47,14 +47,14 @@
                         <li class="col row-uppercase">{{ form_row(user.paysNaissance) }}</li>
                     </div>
 
-                    <div>
+                    <div class="form-deces">
                         <li>
                             {% if not user.vars.data.deces is defined %}
-                                {{ form_row(user.checkDeces, { 'attr': {'checked': 'checked'} }) }}
+                                {{ form_row(user.checkDeces, { 'attr': {'checked': 'checked', 'class': 'check-deces'} }) }}
                             {% elseif user.vars.data.deces == 0 %}
-                                {{ form_row(user.checkDeces, { 'attr': {'checked': 'checked'} }) }}
+                                {{ form_row(user.checkDeces, { 'attr': {'checked': 'checked', 'class': 'check-deces'} }) }}
                             {% elseif user.vars.data.deces == 1 %}
-                                {{ form_row(user.checkDeces) }}
+                                {{ form_row(user.checkDeces, { 'attr': {'class': 'check-deces'} }) }}
                             {% endif %}
 
                         </li>
@@ -81,7 +81,7 @@
                     {% if user.vars.name == 'mere' %}
                         <!-- Si dans la table Parents Mere == NULL -->
                         {% if user.vars.data is empty %}
-                            <li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+                            <li>{{ form_row(user.check, { 'attr': {'checked': 'checked', 'class': 'check-user'} }) }}</li>
                         {% else %}
 
                             <!-- Mere existe soit par une nouvelle instance soit dans la table User -->
@@ -92,14 +92,14 @@
                                 <!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
                                 <!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
                                 {% if personData %}
-                                    <li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+                                    <li>{{ form_row(user.check, { 'attr': {'checked': 'checked', 'class': 'check-user'} }) }}</li>
                                 {% else %}
-                                    <li>{{ form_row(user.check) }}</li>
+                                    <li>{{ form_row(user.check, { 'attr': {'class': 'check-user'} }) }}</li>
                                 {% endif %}
                             {% else %}
                                 <!-- s'il y a un sexe alors l'instance vient de la BDD -->
 
-                                <li>{{ form_row(user.check) }}</li>
+                                <li>{{ form_row(user.check, { 'attr': {'class': 'check-user'} }) }}</li>
 
 
                             {% endif %}
@@ -110,7 +110,7 @@
                     {% elseif user.vars.name == 'pere' %}
                         <!-- Si dans la table Parents Pere == NULL -->
                         {% if user.vars.data is empty %}
-                            <li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+                            <li>{{ form_row(user.check, { 'attr': {'checked': 'checked', 'class': 'check-user'} }) }}</li>
                         {% else %}
 
                             <!-- Pere existe soit par une nouvelle instance soit dans la table User -->
@@ -121,14 +121,14 @@
                                 <!-- soit lors de la création d'un formulaire soit lorsqu'on créé un parent qui a automatiquement en HTML des parents inconnus et donc sans être en BDD  -->
                                 <!-- On distingue avec la variable PersonData si dans le formulaire Personne existe-->
                                 {% if personData %}
-                                    <li>{{ form_row(user.check, { 'attr': {'checked': 'checked'} }) }}</li>
+                                    <li>{{ form_row(user.check, { 'attr': {'checked': 'checked', 'class': 'check-user'} }) }}</li>
                                 {% else %}
-                                    <li>{{ form_row(user.check) }}</li>
+                                    <li>{{ form_row(user.check, { 'attr': {'class': 'check-user'} }) }}</li>
                                 {% endif %}
 
                             {% else %}
                                 <!-- s'il y a un sexe alors l'instance vient de la BDD -->
-                                <li>{{ form_row(user.check) }}</li>
+                                <li>{{ form_row(user.check, { 'attr': {'class': 'check-user'} }) }}</li>
                             {% endif %}
 
                         {% endif %}
@@ -154,18 +154,42 @@
                 // TODO : faire en sorte qu'il soit appliqué dès le chargement de la page si la checkbox est déjà cochée
                 $isDisabled = $($thisFormParent).find('input:not([type=checkbox])').prop('disabled');
                 $isDisabled = !$isDisabled ? true : false;
-                $($thisFormParent).find('input:not([type=checkbox])').prop({
+                $($thisFormParent).find('input:not([type=checkbox]), select').prop({
                     disabled: $isDisabled
                 });
-                $($thisFormParent).find('select').prop({
-                    disabled: $isDisabled
-                });
+                if ($(target).hasClass('check-user') && $(target).is(':checked')) {
+                    $($thisFormParent).find('.form-deces input, .form-deces select').prop({
+                        disabled: true
+                    });
+                    $($thisFormParent).find('.form-deces input[type=checkbox]').prop({
+                        disabled: true
+                    });
+                } else if ($(target).hasClass('check-user') && !$(target).is(':checked') && $($thisFormParent).find('.check-deces').is(':checked')) {
+                    $($thisFormParent).find('.form-deces input:not([type=checkbox]), .form-deces select').prop({
+                        disabled: true
+                    });
+                    $($thisFormParent).find('.form-deces input[type=checkbox]').prop({
+                        disabled: false
+                    });
+                } else if ($(target).hasClass('check-user') && !$(target).is(':checked') && !$($thisFormParent).find('.check-deces').is(':checked')) {
+                    $($thisFormParent).find('.form-deces input, .form-deces select').prop({
+                        disabled: false
+                    });
+                    $($thisFormParent).find('.form-deces input[type=checkbox]').prop({
+                        disabled: false
+                    });
+                }
             }
+            
+            // quand on clique sur une checkbox du form, ça rajoute une classe "form-grise" sur la <li> parente de la checkbox en question
+            // cette classe applique le fond grisé sur cette <li>
 
+            // ça c'est quand on clique sur une checkbox
             $("input[type=checkbox]").change((event) => {
                 setFormDisabled(event.target);
             });
 
+            // ça c'est pour appliquer la fonction lors du chargement de la page
             $(document).find("input[type=checkbox]:checked").each((index, element) => {
                 setFormDisabled(element);
             });
