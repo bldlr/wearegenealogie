@@ -157,38 +157,38 @@
                 $($thisFormParent).find('input:not([type=checkbox]), select').prop({
                     disabled: $isDisabled
                 });
-                if ($(target).hasClass('check-user') && $(target).is(':checked')) {
-                    $($thisFormParent).find('.form-deces input, .form-deces select').prop({
-                        disabled: true
-                    });
-                    $($thisFormParent).find('.form-deces input[type=checkbox]').prop({
-                        disabled: true
-                    });
-                } else if ($(target).hasClass('check-user') && !$(target).is(':checked') && $($thisFormParent).find('.check-deces').is(':checked')) {
-                    $($thisFormParent).find('.form-deces input:not([type=checkbox]), .form-deces select').prop({
-                        disabled: true
-                    });
-                    $($thisFormParent).find('.form-deces input[type=checkbox]').prop({
-                        disabled: false
-                    });
-                } else if ($(target).hasClass('check-user') && !$(target).is(':checked') && !$($thisFormParent).find('.check-deces').is(':checked')) {
-                    $($thisFormParent).find('.form-deces input, .form-deces select').prop({
-                        disabled: false
-                    });
-                    $($thisFormParent).find('.form-deces input[type=checkbox]').prop({
-                        disabled: false
-                    });
+                if ($(target).hasClass('check-user')) {
+                    if ($(target).is(':checked')) {
+                        $($thisFormParent).find('.form-deces input, .form-deces select').prop({
+                            disabled: true
+                        });
+                        $($thisFormParent).find('.form-deces input[type=checkbox]').prop({
+                            disabled: true
+                        });
+                    } else if (!$(target).is(':checked') && $($thisFormParent).find('.check-deces').is(':checked')) {
+                        $($thisFormParent).find('.form-deces input:not([type=checkbox]), .form-deces select').prop({
+                            disabled: true
+                        });
+                        $($thisFormParent).find('.form-deces input[type=checkbox]').prop({
+                            disabled: false
+                        });
+                    } else if (!$(target).is(':checked') && !$($thisFormParent).find('.check-deces').is(':checked')) {
+                        $($thisFormParent).find('.form-deces input, .form-deces select').prop({
+                            disabled: false
+                        });
+                        $($thisFormParent).find('.form-deces input[type=checkbox]').prop({
+                            disabled: false
+                        });
+                    }
                 }
             }
             
             // quand on clique sur une checkbox du form, ça rajoute une classe "form-grise" sur la <li> parente de la checkbox en question
             // cette classe applique le fond grisé sur cette <li>
-
             // ça c'est quand on clique sur une checkbox
             $("input[type=checkbox]").change((event) => {
                 setFormDisabled(event.target);
             });
-
             // ça c'est pour appliquer la fonction lors du chargement de la page
             $(document).find("input[type=checkbox]:checked").each((index, element) => {
                 setFormDisabled(element);
