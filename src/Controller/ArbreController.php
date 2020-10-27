@@ -49,7 +49,7 @@ class ArbreController extends AbstractController
                     }
                 } else {
                     $parents = [
-                        $repoUser->find($userParent->getPere()),
+                        $userParent->getPere() ? $repoUser->find($userParent->getPere()) : null,
                         $user,
                     ];
                     $enfantsRepoParents = $repoParents->findEnfantsMereOrder($user);
